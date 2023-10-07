@@ -5,7 +5,6 @@ target_include_directories(
     ../Core/Inc
     stm32f4xx_hal_driver/Inc
     stm32f4xx_hal_driver/Inc/Legacy
-    ../Drivers/CMSIS/Include
 )
 target_sources(stm32f4xx_hal_driver PUBLIC
     stm32f4xx_hal_driver/Src/stm32f4xx_hal_cortex.c
@@ -30,5 +29,6 @@ target_sources(stm32f4xx_hal_driver PUBLIC
 )
 target_link_libraries(stm32f4xx_hal_driver PUBLIC
     cmsis_device_f4
+    cmsis_5
 )
 add_common_target_properties(stm32f4xx_hal_driver)
