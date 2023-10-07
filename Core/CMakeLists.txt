@@ -13,7 +13,6 @@ target_sources(
     Src/syscalls.c
     Src/sysmem.c
     Src/system_stm32f4xx.c
-    Startup/startup_stm32f446zetx.s
 )
 target_include_directories(
     CORE PRIVATE
