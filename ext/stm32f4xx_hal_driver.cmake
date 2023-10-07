@@ -5,7 +5,6 @@ target_include_directories(
     ../Core/Inc
     stm32f4xx_hal_driver/Inc
     stm32f4xx_hal_driver/Inc/Legacy
-    ../Drivers/CMSIS/Device/ST/STM32F4xx/Include
     ../Drivers/CMSIS/Include
 )
 target_sources(stm32f4xx_hal_driver PUBLIC
@@ -28,5 +27,8 @@ target_sources(stm32f4xx_hal_driver PUBLIC
     stm32f4xx_hal_driver/Src/stm32f4xx_hal_uart.c
     stm32f4xx_hal_driver/Src/stm32f4xx_hal.c
     stm32f4xx_hal_driver/Src/stm32f4xx_ll_usb.c
+)
+target_link_libraries(stm32f4xx_hal_driver PUBLIC
+    cmsis_device_f4
 )
 add_common_target_properties(stm32f4xx_hal_driver)
