@@ -1,4 +1,4 @@
-add_library(stm32f4xx_hal_driver)
+add_library(stm32f4xx_hal_driver STATIC)
 
 target_include_directories(
     stm32f4xx_hal_driver PUBLIC
