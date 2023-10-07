@@ -19,7 +19,7 @@ target_include_directories(
     CORE PRIVATE
     Inc
 )
-target_link_libraries(CORE PRIVATE HAL)
+target_link_libraries(CORE PRIVATE stm32f4xx_hal_driver)
 add_common_target_properties(CORE)
 
 target_link_options(
