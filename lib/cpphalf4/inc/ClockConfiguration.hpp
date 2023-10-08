@@ -1,7 +1,7 @@
 #pragma once
 #include "Rcc.hpp"
 
-struct SystemClock
+struct ClockConfiguration
 {
 	static inline void init(const uint32_t hse_value)
 	{

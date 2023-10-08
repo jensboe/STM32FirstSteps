@@ -16,7 +16,7 @@
  */
 #include "main.hpp"
 
-#include "SystemClock.hpp"
+#include "ClockConfiguration.hpp"
 
 UART_HandleTypeDef huart3;
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
@@ -40,7 +40,7 @@ int main(void)
 	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 	__HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
 
-	SystemClock::init(8'000'000);
+	ClockConfiguration::init(8'000'000);
 
 	HAL_InitTick (uwTickPrio);
 
