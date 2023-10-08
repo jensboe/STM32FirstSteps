@@ -18,10 +18,14 @@
 
 #include "ClockConfiguration.hpp"
 
+#include <SI/frequency.h>
+
+using namespace SI::literals;
+
 UART_HandleTypeDef huart3;
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
-const uint32_t sysTick_freq  = 1'000;
+constexpr auto sysTick_freq = 1_kHz;
 
 static void MX_GPIO_Init(void);
 static void MX_USART3_UART_Init(void);
@@ -42,9 +46,8 @@ int main(void)
 	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 	__HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
 
-	ClockConfiguration::init(8'000'000);
-
-	SysTick_Config(SystemCoreClock / sysTick_freq);
+	ClockConfiguration::init(8_MHz);
+	SysTick_Config(SystemCoreClock / SI::hertz_t<uint32_t>(sysTick_freq).value());
 
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
