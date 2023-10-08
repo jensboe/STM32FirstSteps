@@ -16,7 +16,7 @@
             "stopAtConnect": false,
             "postRemoteConnectCommands": [
                 {
-                    "text": "load build/debug/build/STM32FirstSteps.elf"
+                    "text": "load build/debug/build/Core/Core.elf"
                 }
             ],
             "logging": {
