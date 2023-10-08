@@ -1,9 +1,11 @@
 #pragma once
 #include "Rcc.hpp"
+#include <SI/frequency.h>
 
+using namespace SI::literals;
 struct ClockConfiguration
 {
-	static inline void init(const uint32_t hse_value)
+	static inline void init(const SI::hertz_t<uint32_t> &hse_value)
 	{
 		Rcc::HSI::enable();
 		Rcc::SystemClock::setSource(Rcc::SystemClock::Source::HSI);
@@ -26,15 +28,15 @@ struct ClockConfiguration
 
 		updateSystemCoreClock(hse_value);
 	}
-	
-	static inline void updateSystemCoreClock(const uint32_t hse_value)
+
+	static inline void updateSystemCoreClock(const SI::hertz_t<uint32_t> hse_value)
 	{
-		uint32_t clk = 16'000'000;
+		SI::hertz_t<uint32_t> clk = 16_MHz;
 
 		switch (Rcc::SystemClock::getSource())
 		{
 		case Rcc::SystemClock::Source::HSI:
-			clk = 16'000'000;
+			clk = 16_MHz;
 			break;
 		case Rcc::SystemClock::Source::HSE:
 			clk = hse_value;
@@ -44,7 +46,7 @@ struct ClockConfiguration
 			switch (Rcc::PLL::getSource())
 			{
 			case Rcc::PLL::Source::HSI:
-				clk = 16'000'000;
+				clk = 16_MHz;
 				break;
 			case Rcc::PLL::Source::HSE:
 				clk = hse_value;
@@ -76,6 +78,6 @@ struct ClockConfiguration
 			clk = clk / Rcc::PLL::getR();
 			break;
 		}
-		SystemCoreClock = clk;
+		SystemCoreClock = clk.value();
 	}
 };
