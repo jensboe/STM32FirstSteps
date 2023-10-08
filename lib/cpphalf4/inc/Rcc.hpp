@@ -92,13 +92,13 @@ struct Rcc
 			PLLR = RCC_CFGR_SW_PLLR,
 		};
 
-		static inline void SetSource(Source source = Source::PLLCLK, uint32_t timeout = 2000)
+		static inline void setSource(Source source = Source::PLLCLK, uint32_t timeout = 2000)
 		{
-			// Set the System clock Switch
+			// set the System clock Switch
 			RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_SW) | uint32_t(source);
 
 			// Readback System Clock Switch Status
-			while (GetSource() != source)
+			while (getSource() != source)
 			{
 				if (--timeout < 0)
 				{
@@ -107,7 +107,7 @@ struct Rcc
 			}
 		}
 
-		static inline Source GetSource()
+		static inline Source getSource()
 		{
 			return Source((RCC->CFGR & RCC_CFGR_SWS) >> (RCC_CFGR_SWS_Pos - RCC_CFGR_SW_Pos));
 		}
@@ -150,41 +150,41 @@ struct Rcc
 			{
 				disable();
 			}
-			SetSource(cfg.src);
-			SetM(cfg.M);
-			SetN(cfg.N);
-			SetP(cfg.Pval);
-			SetQ(cfg.Q);
-			SetR(cfg.R);
+			setSource(cfg.src);
+			setM(cfg.M);
+			setN(cfg.N);
+			setP(cfg.Pval);
+			setQ(cfg.Q);
+			setR(cfg.R);
 			enable();
 		}
 
-		static inline Source GetSource()
+		static inline Source getSource()
 		{
 			return Source(RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC);
 		}
 
-		static inline size_t GetM()
+		static inline size_t getM()
 		{
 			return (RCC->PLLCFGR & RCC_PLLCFGR_PLLM) >> RCC_PLLCFGR_PLLM_Pos;
 		}
 
-		static inline size_t GetN()
+		static inline size_t getN()
 		{
 			return (RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> RCC_PLLCFGR_PLLN_Pos;
 		}
 
-		static inline P GetP()
+		static inline P getP()
 		{
 			return P((RCC->PLLCFGR & RCC_PLLCFGR_PLLP) >> RCC_PLLCFGR_PLLP_Pos);
 		}
 
-		static inline size_t GetQ()
+		static inline size_t getQ()
 		{
 			return (RCC->PLLCFGR & RCC_PLLCFGR_PLLQ) >> RCC_PLLCFGR_PLLQ_Pos;
 		}
 
-		static inline size_t GetR()
+		static inline size_t getR()
 		{
 			return (RCC->PLLCFGR & RCC_PLLCFGR_PLLR) >> RCC_PLLCFGR_PLLR_Pos;
 		}
@@ -214,32 +214,32 @@ struct Rcc
 			}
 		}
 
-		static inline void SetSource(Source source = Source::HSE, uint32_t timeout = 2000)
+		static inline void setSource(Source source = Source::HSE, uint32_t timeout = 2000)
 		{
 			RCC->PLLCFGR = (RCC->PLLCFGR & ~RCC_PLLCFGR_PLLSRC) | uint32_t(source);
 		}
 
-		static inline void SetM(const size_t value = 4)
+		static inline void setM(const size_t value = 4)
 		{
 			RCC->PLLCFGR = (RCC->PLLCFGR & ~RCC_PLLCFGR_PLLM) | (value << RCC_PLLCFGR_PLLM_Pos);
 		}
 
-		static inline void SetN(const size_t value = 168)
+		static inline void setN(const size_t value = 168)
 		{
 			RCC->PLLCFGR = (RCC->PLLCFGR & ~RCC_PLLCFGR_PLLN) | (value << RCC_PLLCFGR_PLLN_Pos);
 		}
 
-		static inline void SetP(const P value = P::DIV2)
+		static inline void setP(const P value = P::DIV2)
 		{
 			RCC->PLLCFGR = (RCC->PLLCFGR & ~RCC_PLLCFGR_PLLP) | (uint32_t(value) << RCC_PLLCFGR_PLLP_Pos);
 		}
 
-		static inline void SetQ(const size_t value = 7)
+		static inline void setQ(const size_t value = 7)
 		{
 			RCC->PLLCFGR = (RCC->PLLCFGR & ~RCC_PLLCFGR_PLLQ) | (value << RCC_PLLCFGR_PLLQ_Pos);
 		}
 
-		static inline void SetR(const size_t value = 2)
+		static inline void setR(const size_t value = 2)
 		{
 			RCC->PLLCFGR = (RCC->PLLCFGR & ~RCC_PLLCFGR_PLLR) | (value << RCC_PLLCFGR_PLLR_Pos);
 		}
@@ -260,12 +260,12 @@ struct Rcc
 			DIV512 = RCC_CFGR_HPRE_DIV512,
 		};
 
-		static inline void Set(const DIV div = DIV::DIV1)
+		static inline void set(const DIV div = DIV::DIV1)
 		{
 			RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_HPRE) | uint32_t(div);
 		}
 
-		static inline DIV Get(void)
+		static inline DIV get(void)
 		{
 			return DIV((RCC->CFGR & RCC_CFGR_HPRE) >> RCC_CFGR_HPRE_Pos);
 		}
@@ -282,12 +282,12 @@ struct Rcc
 			DIV16 = RCC_CFGR_PPRE1_DIV16,
 		};
 
-		static inline void Set(const DIV div = DIV::DIV4)
+		static inline void set(const DIV div = DIV::DIV4)
 		{
 			RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PPRE1) | uint32_t(div);
 		}
 
-		static inline DIV Get(void)
+		static inline DIV get(void)
 		{
 			return DIV((RCC->CFGR & RCC_CFGR_PPRE1) >> RCC_CFGR_PPRE1_Pos);
 		}
@@ -304,12 +304,12 @@ struct Rcc
 			DIV16 = RCC_CFGR_PPRE2_DIV16,
 		};
 
-		static inline void Set(const DIV div = DIV::DIV2)
+		static inline void set(const DIV div = DIV::DIV2)
 		{
 			RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PPRE2) | uint32_t(div);
 		}
 
-		static inline DIV Get(void)
+		static inline DIV get(void)
 		{
 			return DIV((RCC->CFGR & RCC_CFGR_PPRE2) >> RCC_CFGR_PPRE2_Pos);
 		}
@@ -323,12 +323,12 @@ struct Rcc
 			PLLSAIP = RCC_DCKCFGR2_CK48MSEL,
 		};
 
-		static inline void Set(const Source src = Source::PLLQ)
+		static inline void set(const Source src = Source::PLLQ)
 		{
 			RCC->DCKCFGR2 = (RCC->DCKCFGR2 & ~RCC_DCKCFGR2_CK48MSEL) | uint32_t(src);
 		}
 
-		static inline Source Get(void)
+		static inline Source get(void)
 		{
 			return Source((RCC->CFGR & RCC_DCKCFGR2_CK48MSEL) >> RCC_DCKCFGR2_CK48MSEL_Pos);
 		}
