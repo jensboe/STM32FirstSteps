@@ -18,6 +18,8 @@
 
 #include <iostream>
 
+#include "SystemClock.hpp"
+
 UART_HandleTypeDef huart3;
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
@@ -39,6 +41,7 @@ int main(void)
 
 	/* Configure the system clock */
 	SystemClock_Config();
+	SystemClock::init();
 
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
