@@ -12,13 +12,14 @@ target_sources(
     Src/stm32f4xx_it.c
     Src/syscalls.c
     Src/sysmem.c
-    Src/system_stm32f4xx.c
 )
 target_include_directories(
     CORE PRIVATE
     Inc
 )
-target_link_libraries(CORE PRIVATE stm32f4xx_hal_driver)
+target_link_libraries(CORE PUBLIC
+    stm32f4xx_hal_driver
+)
 add_common_target_properties(CORE)
 
 target_link_options(
