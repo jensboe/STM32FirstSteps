@@ -1,6 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
-
-
+cmake_minimum_required(VERSION 3.23)
 project("STM32FirstSteps" C CXX ASM)
 
 add_executable(CORE)
@@ -20,6 +18,7 @@ target_include_directories(
 target_link_libraries(CORE PUBLIC
     stm32f4xx_hal_driver
     cpphalf4
+    SI::SI
 )
 add_common_target_properties(CORE)
 
