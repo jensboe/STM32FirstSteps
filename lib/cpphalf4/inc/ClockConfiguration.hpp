@@ -18,10 +18,10 @@ struct ClockConfiguration
 				.R = 2,
 			};
 		Rcc::PLL::set(cfg);
-		Rcc::AHB::set();
-		Rcc::AHB1::set();
-		Rcc::AHB2::set();
-		Rcc::PLL48CLK::set();
+		Rcc::AHB::set(Rcc::AHB::DIV::DIV1);
+		Rcc::AHB1::set(Rcc::AHB1::DIV::DIV4);
+		Rcc::AHB2::set(Rcc::AHB2::DIV::DIV2);
+		Rcc::PLL48CLK::set(Rcc::PLL48CLK::Source::PLLQ);
 		Rcc::SystemClock::setSource(Rcc::SystemClock::Source::PLLCLK);
 
 		updateSystemCoreClock(hse_value);
