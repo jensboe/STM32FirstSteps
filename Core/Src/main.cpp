@@ -21,6 +21,8 @@
 UART_HandleTypeDef huart3;
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
+const uint32_t sysTick_freq  = 1'000;
+
 static void MX_GPIO_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
@@ -42,7 +44,7 @@ int main(void)
 
 	ClockConfiguration::init(8'000'000);
 
-	HAL_InitTick (uwTickPrio);
+	SysTick_Config(SystemCoreClock / sysTick_freq);
 
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
