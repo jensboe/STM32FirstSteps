@@ -52,28 +52,29 @@ struct Rcc
 			return RCC->CR & RCC_CR_PLLRDY;
 		}
 
-		static inline void enable(uint32_t timeout = 2000)
-		{
-			RCC->CR |= RCC_CR_PLLON;
-			while (not isReady())
-			{
-				if (--timeout < 0)
-				{
-					return;
-				}
-			}
-		}
+		struct config {
+			Source src	= Source::HSE;
+			uint32_t M 	= 4;
+			uint32_t N 	= 168;
+			P Pval 		= P::DIV2;
+			uint32_t Q 	= 7;
+			uint32_t R 	= 2;
 
-		static inline void disable(uint32_t timeout = 2000)
+		};
+
+		static inline void set(const config &cfg)
 		{
-			RCC->CR &= ~RCC_CR_PLLON;
-			while (isReady())
+			if(isReady())
 			{
-				if (--timeout < 0)
-				{
-					return;
-				}
+				disable();
 			}
+			SetSource(cfg.src);
+			SetM(cfg.M);
+			SetN(cfg.N);
+			SetP(cfg.Pval);
+			SetQ(cfg.Q);
+			SetR(cfg.R);
+			enable();
 		}
 
 		static inline Source GetSource()
@@ -104,6 +105,32 @@ struct Rcc
 		static inline size_t GetR()
 		{
 			return (RCC->PLLCFGR & RCC_PLLCFGR_PLLR) >> RCC_PLLCFGR_PLLR_Pos;
+		}
+
+		private:
+		
+		static inline void enable(uint32_t timeout = 2000)
+		{
+			RCC->CR |= RCC_CR_PLLON;
+			while (not isReady())
+			{
+				if (--timeout < 0)
+				{
+					return;
+				}
+			}
+		}
+
+		static inline void disable(uint32_t timeout = 2000)
+		{
+			RCC->CR &= ~RCC_CR_PLLON;
+			while (isReady())
+			{
+				if (--timeout < 0)
+				{
+					return;
+				}
+			}
 		}
 
 		static inline void SetSource(Source source = Source::HSE, uint32_t timeout = 2000)
