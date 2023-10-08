@@ -7,7 +7,7 @@ add_executable(CORE)
 
 target_sources(
     CORE PRIVATE
-    Src/main.c
+    Src/main.cpp
     Src/stm32f4xx_hal_msp.c
     Src/stm32f4xx_it.c
     Src/syscalls.c
