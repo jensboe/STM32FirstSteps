@@ -4,6 +4,6 @@ struct SystemClock
 {
 	static inline void init()
 	{
-		Rcc::SetSystemClockSource(Rcc::SystemClockSource::PLLCLK);
+		Rcc::SystemClock::SetSource(Rcc::SystemClock::Source::PLLCLK);
 	}
 };

@@ -3,33 +3,115 @@
 #include "stm32f446xx.h"
 struct Rcc
 {
-	enum class SystemClockSource : uint32_t
+	struct HSE
 	{
-		HSI = RCC_CFGR_SW_HSI,
-		HSE = RCC_CFGR_SW_HSE,
-		PLLCLK = RCC_CFGR_SW_PLL,
-		PLLR = RCC_CFGR_SW_PLLR,
-	};
-
-	static inline void SetSystemClockSource(SystemClockSource source = SystemClockSource::PLLCLK, uint32_t timeout = 2000)
-	{
-		// Set the System clock Switch
-		RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_SW) | uint32_t(source);
-
-		// Readback System Clock Switch Status
-		while (GetSystemClockSource() != source)
+		enum class Type
 		{
-			if (--timeout < 0)
+			CRYSTAL,
+			CLOCK
+		};
+
+		static inline void disable(uint32_t timeout = 2000)
+		{
+			RCC->CR &= ~RCC_CR_HSEON;
+			RCC->CR &= ~RCC_CR_HSEBYP;
+			while (isReady())
 			{
-				return;
+				if (--timeout < 0)
+				{
+					return;
+				}
 			}
 		}
-	}
 
-	static inline SystemClockSource GetSystemClockSource()
+		static inline void enable(Type typ = Type::CLOCK, uint32_t timeout = 2000)
+		{
+			if (typ == Type::CLOCK)
+			{
+				RCC->CR |= RCC_CR_HSEBYP | RCC_CR_HSEON;
+			}
+			else
+			{
+				RCC->CR |= RCC_CR_HSEON;
+			}
+
+			while (not isReady())
+			{
+				if (--timeout < 0)
+				{
+					return;
+				}
+			}
+		}
+		static inline bool isReady()
+		{
+			return RCC->CR & RCC_CR_HSERDY;
+		}
+	};
+
+	struct HSI
 	{
-		return SystemClockSource((RCC->CFGR & RCC_CFGR_SWS) >> (RCC_CFGR_SWS_Pos - RCC_CFGR_SW_Pos));
-	}
+		static inline void disable(uint32_t timeout = 2000)
+		{
+			RCC->CR &= ~RCC_CR_HSION;
+
+			while (isReady())
+			{
+				if (--timeout < 0)
+				{
+					return;
+				}
+			}
+		}
+
+		static inline void enable(uint32_t timeout = 2000)
+		{
+			RCC->CR |= RCC_CR_HSION;
+
+			while (not isReady())
+			{
+				if (--timeout < 0)
+				{
+					return;
+				}
+			}
+		}
+		static inline bool isReady()
+		{
+			return RCC->CR & RCC_CR_HSIRDY;
+		}
+	};
+
+	struct SystemClock
+	{
+		enum class Source : uint32_t
+		{
+			HSI = RCC_CFGR_SW_HSI,
+			HSE = RCC_CFGR_SW_HSE,
+			PLLCLK = RCC_CFGR_SW_PLL,
+			PLLR = RCC_CFGR_SW_PLLR,
+		};
+
+		static inline void SetSource(Source source = Source::PLLCLK, uint32_t timeout = 2000)
+		{
+			// Set the System clock Switch
+			RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_SW) | uint32_t(source);
+
+			// Readback System Clock Switch Status
+			while (GetSource() != source)
+			{
+				if (--timeout < 0)
+				{
+					return;
+				}
+			}
+		}
+
+		static inline Source GetSource()
+		{
+			return Source((RCC->CFGR & RCC_CFGR_SWS) >> (RCC_CFGR_SWS_Pos - RCC_CFGR_SW_Pos));
+		}
+	};
 
 	struct PLL
 	{
@@ -52,19 +134,19 @@ struct Rcc
 			return RCC->CR & RCC_CR_PLLRDY;
 		}
 
-		struct config {
-			Source src	= Source::HSE;
-			uint32_t M 	= 4;
-			uint32_t N 	= 168;
-			P Pval 		= P::DIV2;
-			uint32_t Q 	= 7;
-			uint32_t R 	= 2;
-
+		struct config
+		{
+			Source src = Source::HSE;
+			uint32_t M = 4;
+			uint32_t N = 168;
+			P Pval = P::DIV2;
+			uint32_t Q = 7;
+			uint32_t R = 2;
 		};
 
 		static inline void set(const config &cfg)
 		{
-			if(isReady())
+			if (isReady())
 			{
 				disable();
 			}
@@ -107,8 +189,7 @@ struct Rcc
 			return (RCC->PLLCFGR & RCC_PLLCFGR_PLLR) >> RCC_PLLCFGR_PLLR_Pos;
 		}
 
-		private:
-		
+	private:
 		static inline void enable(uint32_t timeout = 2000)
 		{
 			RCC->CR |= RCC_CR_PLLON;
@@ -161,6 +242,95 @@ struct Rcc
 		static inline void SetR(const size_t value = 2)
 		{
 			RCC->PLLCFGR = (RCC->PLLCFGR & ~RCC_PLLCFGR_PLLR) | (value << RCC_PLLCFGR_PLLR_Pos);
+		}
+	};
+
+	struct AHB
+	{
+		enum class DIV : uint32_t
+		{
+			DIV1 = RCC_CFGR_HPRE_DIV1,
+			DIV2 = RCC_CFGR_HPRE_DIV2,
+			DIV4 = RCC_CFGR_HPRE_DIV4,
+			DIV8 = RCC_CFGR_HPRE_DIV8,
+			DIV16 = RCC_CFGR_HPRE_DIV16,
+			DIV64 = RCC_CFGR_HPRE_DIV64,
+			DIV128 = RCC_CFGR_HPRE_DIV128,
+			DIV256 = RCC_CFGR_HPRE_DIV256,
+			DIV512 = RCC_CFGR_HPRE_DIV512,
+		};
+
+		static inline void Set(const DIV div = DIV::DIV1)
+		{
+			RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_HPRE) | uint32_t(div);
+		}
+
+		static inline DIV Get(void)
+		{
+			return DIV((RCC->CFGR & RCC_CFGR_HPRE) >> RCC_CFGR_HPRE_Pos);
+		}
+	};
+
+	struct AHB1
+	{
+		enum class DIV : uint32_t
+		{
+			DIV1 = RCC_CFGR_PPRE1_DIV1,
+			DIV2 = RCC_CFGR_PPRE1_DIV2,
+			DIV4 = RCC_CFGR_PPRE1_DIV4,
+			DIV8 = RCC_CFGR_PPRE1_DIV8,
+			DIV16 = RCC_CFGR_PPRE1_DIV16,
+		};
+
+		static inline void Set(const DIV div = DIV::DIV4)
+		{
+			RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PPRE1) | uint32_t(div);
+		}
+
+		static inline DIV Get(void)
+		{
+			return DIV((RCC->CFGR & RCC_CFGR_PPRE1) >> RCC_CFGR_PPRE1_Pos);
+		}
+	};
+
+	struct AHB2
+	{
+		enum class DIV : uint32_t
+		{
+			DIV1 = RCC_CFGR_PPRE2_DIV1,
+			DIV2 = RCC_CFGR_PPRE2_DIV2,
+			DIV4 = RCC_CFGR_PPRE2_DIV4,
+			DIV8 = RCC_CFGR_PPRE2_DIV8,
+			DIV16 = RCC_CFGR_PPRE2_DIV16,
+		};
+
+		static inline void Set(const DIV div = DIV::DIV2)
+		{
+			RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PPRE2) | uint32_t(div);
+		}
+
+		static inline DIV Get(void)
+		{
+			return DIV((RCC->CFGR & RCC_CFGR_PPRE2) >> RCC_CFGR_PPRE2_Pos);
+		}
+	};
+
+	struct PLL48CLK
+	{
+		enum class Source : uint32_t
+		{
+			PLLQ = 0,
+			PLLSAIP = RCC_DCKCFGR2_CK48MSEL,
+		};
+
+		static inline void Set(const Source src = Source::PLLQ)
+		{
+			RCC->DCKCFGR2 = (RCC->DCKCFGR2 & ~RCC_DCKCFGR2_CK48MSEL) | uint32_t(src);
+		}
+
+		static inline Source Get(void)
+		{
+			return Source((RCC->CFGR & RCC_DCKCFGR2_CK48MSEL) >> RCC_DCKCFGR2_CK48MSEL_Pos);
 		}
 	};
 };
