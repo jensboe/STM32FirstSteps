@@ -16,6 +16,8 @@
  */
 #include "main.hpp"
 
+#include <iostream>
+
 UART_HandleTypeDef huart3;
 PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
@@ -45,6 +47,8 @@ int main(void)
 
 	while (1)
 	{
+		uint8_t bla[] = {'H', 'e', 'l', 'l', 'o', '\n', 0};
+		HAL_UART_Transmit(&huart3, bla, sizeof(bla), 100);
 		HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
 		HAL_Delay(500);
 	}
