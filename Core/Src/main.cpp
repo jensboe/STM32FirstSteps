@@ -42,10 +42,6 @@ int main(void)
 	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
 	HAL_Init();
 
-	__HAL_RCC_PWR_CLK_ENABLE();
-	__HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-	__HAL_FLASH_SET_LATENCY(FLASH_LATENCY_5);
-
 	ClockConfiguration::init(8_MHz);
 	SysTick_Config(SystemCoreClock / SI::hertz_t<uint32_t>(sysTick_freq).value());
 

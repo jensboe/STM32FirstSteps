@@ -1,12 +1,18 @@
 #pragma once
 #include "Rcc.hpp"
+#include "Flash.hpp"
+#include "Pwr.hpp"
 #include <SI/frequency.h>
 
 using namespace SI::literals;
+
 struct ClockConfiguration
 {
 	static inline void init(const SI::hertz_t<uint32_t> &hse_value)
 	{
+		Rcc::APB1::setPWR(true);
+		Pwr::setVOS(Pwr::VOS::SCALE1);
+		Flash::setLatency(5);
 		Rcc::HSI::enable();
 		Rcc::SystemClock::setSource(Rcc::SystemClock::Source::HSI);
 		Rcc::HSE::enable(Rcc::HSE::Type::CLOCK);
