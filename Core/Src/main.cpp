@@ -35,10 +35,10 @@ static void MX_USART3_UART_Init(void);
  */
 int main(void)
 {
-	/* MCU Configuration--------------------------------------------------------*/
-
-	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-	HAL_Init();
+	Flash::setICEN(true);
+	Flash::setDCEN(true);
+	Flash::setPRFTEN(true);
+	Nvic::setPriorityGrouping(Nvic::Grouping::PG4);
 
 	ClockConfiguration::init(8_MHz);
 	SysTick_Config(SystemCoreClock / SI::hertz_t<uint32_t>(sysTick_freq).value());
