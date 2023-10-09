@@ -25,4 +25,20 @@ struct Usart
 
     static_assert(isUART(), " Given peripheral isn't a UART");
 
+    static USART_TypeDef *reg(void)
+    {
+        if constexpr (p == stm32::peripherals::usart1)
+            return USART1;
+        if constexpr (p == stm32::peripherals::usart2)
+            return USART2;
+        if constexpr (p == stm32::peripherals::usart3)
+            return USART3;
+        if constexpr (p == stm32::peripherals::uart4)
+            return UART4;
+        if constexpr (p == stm32::peripherals::uart5)
+            return UART5;
+        if constexpr (p == stm32::peripherals::usart6)
+            return USART6;
+        return nullptr;
+    }
 };
