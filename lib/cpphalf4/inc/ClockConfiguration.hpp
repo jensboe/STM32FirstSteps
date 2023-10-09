@@ -1,7 +1,5 @@
 #pragma once
-#include "Rcc.hpp"
-#include "Flash.hpp"
-#include "Pwr.hpp"
+#include "peripherals.hpp"
 #include <SI/frequency.h>
 
 using namespace SI::literals;
