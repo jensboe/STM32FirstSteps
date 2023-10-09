@@ -1,3 +1,4 @@
+#pragma once
 #include <cstdint>
 
 #include "stm32f446xx.h"
@@ -331,6 +332,20 @@ struct Rcc
 		static inline Source get(void)
 		{
 			return Source((RCC->CFGR & RCC_DCKCFGR2_CK48MSEL) >> RCC_DCKCFGR2_CK48MSEL_Pos);
+		}
+	};
+
+	struct APB1 {
+		static inline void setPWR(const bool value)
+		{
+			if (value)
+			{
+				RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+			}
+			else
+			{
+				RCC->APB1ENR &= ~RCC_APB1ENR_PWREN;
+			}
 		}
 	};
 };
