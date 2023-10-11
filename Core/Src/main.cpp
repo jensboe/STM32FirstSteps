@@ -45,35 +45,39 @@ int main(void)
 
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
-	MX_USART3_UART_Init();
+	// UART MSP INIT KRAMS
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	/* Peripheral clock enable */
+
+
+
+	__HAL_RCC_GPIOD_CLK_ENABLE();
+	/**USART3 GPIO Configuration
+	PD8     ------> USART3_TX
+	PD9     ------> USART3_RX
+	*/
+	GPIO_InitStruct.Pin = STLK_RX_Pin | STLK_TX_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
+	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+	using debug = Usart<stm32::peripherals::usart3>;
+	debug::init();
+	//MX_USART3_UART_Init();
+	huart3.Instance = USART3;
+	huart3.ErrorCode = HAL_UART_ERROR_NONE;
+	huart3.gState = HAL_UART_STATE_READY;
+	huart3.RxState = HAL_UART_STATE_READY;
+	huart3.RxEventType = HAL_UART_RXEVENT_TC;
 
 	while (1)
 	{
-		uint8_t bla[] = {'H', 'e', 'l', 'l', 'o', '\n', 0};
+		uint8_t bla[] = {'H', 'e', 'l', 'l', 'o', '\n'};
 		HAL_UART_Transmit(&huart3, bla, sizeof(bla), 100);
 		HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
 		HAL_Delay(500);
-	}
-}
-
-/**
- * @brief USART3 Initialization Function
- * @param None
- * @retval None
- */
-static void MX_USART3_UART_Init(void)
-{
-	huart3.Instance = USART3;
-	huart3.Init.BaudRate = 115200;
-	huart3.Init.WordLength = UART_WORDLENGTH_8B;
-	huart3.Init.StopBits = UART_STOPBITS_1;
-	huart3.Init.Parity = UART_PARITY_NONE;
-	huart3.Init.Mode = UART_MODE_TX_RX;
-	huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-	huart3.Init.OverSampling = UART_OVERSAMPLING_16;
-	if (HAL_UART_Init(&huart3) != HAL_OK)
-	{
-		Error_Handler();
 	}
 }
 
