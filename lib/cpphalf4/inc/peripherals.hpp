@@ -4,3 +4,4 @@
 #include "Nvic.hpp"
 #include "Pwr.hpp"
 #include "Rcc.hpp"
+#include "Usart.hpp"

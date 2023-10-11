@@ -1,3 +1,4 @@
+#pragma once
 namespace stm32f446
 {
     enum class peripherals
