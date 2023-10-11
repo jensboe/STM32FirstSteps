@@ -2,8 +2,46 @@
 #include <cstdint>
 
 #include "stm32f446xx.h"
+#include "stm32f446.hpp"
 struct Rcc
 {
+	template <stm32::peripherals p>
+	static inline void enable(void)
+	{
+		static_assert(isSupported<p>(), "RCC: peripheral not supported");
+		// static_assert(1, "DIE");
+
+		if constexpr (p == stm32::peripherals::usart1)
+			RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
+		if constexpr (p == stm32::peripherals::usart2)
+			RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
+		if constexpr (p == stm32::peripherals::usart3)
+			RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
+		if constexpr (p == stm32::peripherals::uart4)
+			RCC->APB1ENR |= RCC_APB1ENR_UART4EN;
+		if constexpr (p == stm32::peripherals::uart5)
+			RCC->APB1ENR |= RCC_APB1ENR_UART5EN;
+		if constexpr (p == stm32::peripherals::usart6)
+			RCC->APB2ENR |= RCC_APB2ENR_USART6EN;
+	}
+	template <stm32::peripherals p>
+	static inline constexpr bool isSupported(void)
+	{
+		if constexpr (p == stm32::peripherals::usart1)
+			return true;
+		if constexpr (p == stm32::peripherals::usart2)
+			return true;
+		if constexpr (p == stm32::peripherals::usart3)
+			return true;
+		if constexpr (p == stm32::peripherals::uart4)
+			return true;
+		if constexpr (p == stm32::peripherals::uart5)
+			return true;
+		if constexpr (p == stm32::peripherals::usart6)
+			return true;
+		return false;
+	}
+
 	struct HSE
 	{
 		enum class Type
@@ -335,7 +373,8 @@ struct Rcc
 		}
 	};
 
-	struct APB1 {
+	struct APB1
+	{
 		static inline void setPWR(const bool value)
 		{
 			if (value)
