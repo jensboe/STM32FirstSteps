@@ -31,4 +31,5 @@ target_link_options(
     -mfloat-abi=hard
 )
 
+target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
 endfunction()
