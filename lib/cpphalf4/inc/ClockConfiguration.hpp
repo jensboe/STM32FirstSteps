@@ -1,12 +1,14 @@
 #pragma once
 #include "peripherals.hpp"
+#include "generics.hpp"
 #include <SI/frequency.h>
 
 using namespace SI::literals;
 
 struct ClockConfiguration
 {
-	static inline void init(const SI::hertz_t<uint32_t> &hse_value)
+	template<class generic_controller>
+	static inline void init()
 	{
 		Rcc::APB1::setPWR(true);
 		Pwr::setVOS(Pwr::VOS::SCALE1);
@@ -30,7 +32,7 @@ struct ClockConfiguration
 		Rcc::PLL48CLK::set(Rcc::PLL48CLK::Source::PLLQ);
 		Rcc::SystemClock::setSource(Rcc::SystemClock::Source::PLLCLK);
 
-		updateSystemCoreClock(hse_value);
+		updateSystemCoreClock(generic_controller::HSE);
 	}
 
 	static inline void updateSystemCoreClock(const SI::hertz_t<uint32_t> hse_value)

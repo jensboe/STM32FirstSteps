@@ -1,6 +1,9 @@
 #pragma once
-namespace stm32f446
+#include "stm32f4.hpp"
+
+struct stm32f446 : public stm32f4
 {
+    constexpr static SI::hertz_t<uint32_t> HSE{};
     enum class peripherals
     {
         usart1,
@@ -10,7 +13,4 @@ namespace stm32f446
         uart5,
         usart6,
     };
-}
-namespace stm32f4 = stm32f446;
-
-namespace stm32 = stm32f4;
+};

@@ -15,8 +15,9 @@
  ******************************************************************************
  */
 #include "main.hpp"
-
-#include "ClockConfiguration.hpp"
+#include <generics.hpp>
+#include <stm32f446.hpp>
+#include <ClockConfiguration.hpp>
 
 #include <SI/frequency.h>
 
@@ -28,6 +29,13 @@ constexpr auto sysTick_freq = 1_kHz;
 
 static void MX_GPIO_Init(void);
 static void MX_USART3_UART_Init(void);
+namespace board
+{
+	struct mycontroller : public generic_controller
+	{
+		constexpr static SI::hertz_t<uint32_t> HSE = 8_MHz;
+	};
+}
 
 /**
  * @brief  The application entry point.
@@ -40,7 +48,7 @@ int main(void)
 	Flash::setPRFTEN(true);
 	Nvic::setPriorityGrouping(Nvic::Grouping::PG4);
 
-	ClockConfiguration::init(8_MHz);
+	ClockConfiguration::init<board::mycontroller>();
 	SysTick_Config(SystemCoreClock / SI::hertz_t<uint32_t>(sysTick_freq).value());
 
 	/* Initialize all configured peripherals */
@@ -63,7 +71,8 @@ int main(void)
 	GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
 	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-	using debug = Usart<stm32::peripherals::usart3>;
+	using debug = Usart<stm32f446::peripherals::usart3>;
+
 	debug::init();
 	//MX_USART3_UART_Init();
 	huart3.Instance = USART3;

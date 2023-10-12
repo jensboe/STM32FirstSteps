@@ -9,17 +9,17 @@ struct Usart
 {
     constexpr static bool isUART()
     {
-        if constexpr (p == stm32::peripherals::usart1)
+        if constexpr (p == stm32f446::peripherals::usart1)
             return true;
-        if constexpr (p == stm32::peripherals::usart2)
+        if constexpr (p == stm32f446::peripherals::usart2)
             return true;
-        if constexpr (p == stm32::peripherals::usart3)
+        if constexpr (p == stm32f446::peripherals::usart3)
             return true;
-        if constexpr (p == stm32::peripherals::uart4)
+        if constexpr (p == stm32f446::peripherals::uart4)
             return true;
-        if constexpr (p == stm32::peripherals::uart5)
+        if constexpr (p == stm32f446::peripherals::uart5)
             return true;
-        if constexpr (p == stm32::peripherals::usart6)
+        if constexpr (p == stm32f446::peripherals::usart6)
             return true;
         return false;
     }
@@ -28,17 +28,17 @@ struct Usart
 
     constexpr static USART_TypeDef *reg(void)
     {
-        if constexpr (p == stm32::peripherals::usart1)
+        if constexpr (p == stm32f446::peripherals::usart1)
             return USART1;
-        if constexpr (p == stm32::peripherals::usart2)
+        if constexpr (p == stm32f446::peripherals::usart2)
             return USART2;
-        if constexpr (p == stm32::peripherals::usart3)
+        if constexpr (p == stm32f446::peripherals::usart3)
             return USART3;
-        if constexpr (p == stm32::peripherals::uart4)
+        if constexpr (p == stm32f446::peripherals::uart4)
             return UART4;
-        if constexpr (p == stm32::peripherals::uart5)
+        if constexpr (p == stm32f446::peripherals::uart5)
             return UART5;
-        if constexpr (p == stm32::peripherals::usart6)
+        if constexpr (p == stm32f446::peripherals::usart6)
             return USART6;
         return nullptr;
     }
