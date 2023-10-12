@@ -2,6 +2,32 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "cwd": "${workspaceRoot}",
+            "executable": "${command:cmake.launchTargetPath}",
+            "name": "Debug with OpenOCD",
+            "preLaunchTask": "Build",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "searchDir": [],
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+            "device": "STM32F446ZE",
+            "configFiles": [
+                "interface/stlink-v2-1.cfg",
+                "target/stm32f4x.cfg"
+            ],
+            "swoConfig": {
+                "enabled": true,
+                "cpuFrequency": 8000000,
+                "swoFrequency": 2000000,
+                "source": "probe",
+                "decoders": [
+                    { "type": "console", "label": "ITM", "port": 0 }
+                ]
+            }
+        },
+        {
             "name": "Launch",
             "type": "cppdbg",
             "request": "launch",
@@ -16,7 +42,7 @@
             "stopAtConnect": false,
             "postRemoteConnectCommands": [
                 {
-                    "text": "load build/debug/build/Core/Core.elf"
+                    "text": "load ${command:cmake.launchTargetPath}"
                 }
             ],
             "logging": {
