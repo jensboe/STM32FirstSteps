@@ -124,7 +124,33 @@ struct Usart
             reg()->CR1 &= ~USART_CR1_RE;
         }
     }
-    constexpr static inline void setBaudRate(const uint32_t &baudrate)
+    constexpr static void setBaudRate(const SI::baudrate_t<uint32_t> &baudrate)
+    {
+        setBRR(convertBaudrate2BRR_8(168000000/4, baudrate.value()));
+    }
+    private:
+    constexpr static uint32_t convertBaudrate2BRR_8(const uint32_t &clk, const uint32_t &baudrate)
+    {
+        return ((calculateMantisse_8((clk), (baudrate)) << 4u) +
+                ((calculate_fraq_8((clk), (baudrate)) & 0xF8u) << 1U) +
+                (calculate_fraq_8((clk), (baudrate)) & 0x07u));
+    }
+    constexpr static uint32_t calculateMantisse_8(const uint32_t &clk, const uint32_t &baudrate)
+    {
+        return (calculate_div_8((clk), (baudrate)) / 100U);
+    }
+
+    constexpr static uint32_t calculate_div_8(const uint32_t &clk, const uint32_t &baudrate)
+    {
+        return ((uint32_t)((((uint64_t)(clk)) * 25u) / (2u * ((uint64_t)(baudrate)))));
+    }
+
+    constexpr static uint32_t calculate_fraq_8(const uint32_t &clk, const uint32_t &baudrate)
+    {
+        return ((((UART_DIV_SAMPLING8((clk), (baudrate)) - (UART_DIVMANT_SAMPLING8((clk), (baudrate)) * 100u)) * 8u) + 50u) / 100U);
+    }
+
+    constexpr static void setBRR(const uint32_t &baudrate)
     {
         reg()->BRR = baudrate;
     }
