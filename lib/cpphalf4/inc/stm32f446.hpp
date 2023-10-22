@@ -1,9 +1,9 @@
 #pragma once
 #include "stm32f4.hpp"
+#include "SI/frequency.h"
 
 struct stm32f446 : public stm32f4
 {
-    constexpr static SI::hertz_t<uint32_t> HSE{};
     enum class peripherals
     {
         usart1,
@@ -13,4 +13,7 @@ struct stm32f446 : public stm32f4
         uart5,
         usart6,
     };
+
+    static void init(void);
+    static void updateSystemCoreClock();
 };

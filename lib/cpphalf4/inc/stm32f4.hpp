@@ -1,11 +1,18 @@
 #pragma once
 #include "generics.hpp"
-
+#include "Nvic.hpp"
 struct stm32 : public generic_controller
 {
-    constexpr static SI::hertz_t<uint32_t> HSE{};
+    static void init(void)
+    {
+        generic_controller::init();
+        Nvic::setPriorityGrouping(Nvic::Grouping::PG4);
+    }
 };
 struct stm32f4 : public stm32
 {
-    constexpr static SI::hertz_t<uint32_t> HSE{};
+    static void init(void)
+    {
+        stm32::init();
+    }
 };

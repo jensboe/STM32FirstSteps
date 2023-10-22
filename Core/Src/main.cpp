@@ -15,9 +15,8 @@
  ******************************************************************************
  */
 #include "main.hpp"
-#include <generics.hpp>
-#include <stm32f446.hpp>
-#include <ClockConfiguration.hpp>
+#include "board.hpp"
+#include "peripherals.hpp"
 
 #include <SI/frequency.h>
 
@@ -29,13 +28,7 @@ constexpr auto sysTick_freq = 1_kHz;
 
 static void MX_GPIO_Init(void);
 static void MX_USART3_UART_Init(void);
-namespace board
-{
-	struct mycontroller : public generic_controller
-	{
-		constexpr static SI::hertz_t<uint32_t> HSE = 8_MHz;
-	};
-}
+
 
 /**
  * @brief  The application entry point.
@@ -43,12 +36,8 @@ namespace board
  */
 int main(void)
 {
-	Flash::setICEN(true);
-	Flash::setDCEN(true);
-	Flash::setPRFTEN(true);
-	Nvic::setPriorityGrouping(Nvic::Grouping::PG4);
+	board::mycontroller::init();
 
-	ClockConfiguration::init<board::mycontroller>();
 	SysTick_Config(SystemCoreClock / SI::hertz_t<uint32_t>(sysTick_freq).value());
 
 	/* Initialize all configured peripherals */
@@ -81,9 +70,9 @@ int main(void)
 	huart3.RxState = HAL_UART_STATE_READY;
 	huart3.RxEventType = HAL_UART_RXEVENT_TC;
 
+	uint8_t bla[] = {'H', 'e', 'l', 'l', 'o', '\n'};
 	while (1)
 	{
-		uint8_t bla[] = {'H', 'e', 'l', 'l', 'o', '\n'};
 		HAL_UART_Transmit(&huart3, bla, sizeof(bla), 100);
 		HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
 		HAL_Delay(500);
