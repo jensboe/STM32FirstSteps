@@ -22,12 +22,8 @@
 
 using namespace SI::literals;
 
-UART_HandleTypeDef huart3;
-
 constexpr auto sysTick_freq = 1_kHz;
-
 static void MX_GPIO_Init(void);
-static void MX_USART3_UART_Init(void);
 
 
 /**
@@ -37,7 +33,7 @@ static void MX_USART3_UART_Init(void);
 int main(void)
 {
 	board::mycontroller::init();
-
+	using com = board::mycontroller::debug;
 	SysTick_Config(SystemCoreClock / SI::hertz_t<uint32_t>(sysTick_freq).value());
 
 	/* Initialize all configured peripherals */
@@ -60,17 +56,9 @@ int main(void)
 	GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
 	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-	//MX_USART3_UART_Init();
-	huart3.Instance = USART3;
-	huart3.ErrorCode = HAL_UART_ERROR_NONE;
-	huart3.gState = HAL_UART_STATE_READY;
-	huart3.RxState = HAL_UART_STATE_READY;
-	huart3.RxEventType = HAL_UART_RXEVENT_TC;
-
-	uint8_t bla[] = {'H', 'e', 'l', 'l', 'o', '\n'};
 	while (1)
 	{
-		HAL_UART_Transmit(&huart3, bla, sizeof(bla), 100);
+		com::write("Hello");
 		HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
 		HAL_Delay(500);
 	}
