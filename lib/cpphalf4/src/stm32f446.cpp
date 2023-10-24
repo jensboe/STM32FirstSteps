@@ -3,8 +3,11 @@
 #include "Flash.hpp"
 #include "Pwr.hpp"
 
+using Rcc = registers::Rcc;
+
 void stm32f446::init(void)
 {
+
     stm32f4::init();
     Flash::setICEN(true);
     Flash::setDCEN(true);

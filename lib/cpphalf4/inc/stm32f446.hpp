@@ -14,7 +14,6 @@ struct stm32f446 : public stm32f4
         uart5,
         usart6,
     };
-    using Rcc = registers::Rcc;
     static void init(void);
     static void updateSystemCoreClock();
 };
