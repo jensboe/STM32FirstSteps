@@ -3,8 +3,6 @@
 
 #include "stm32f446xx.h"
 #include "stm32f446.hpp"
-namespace registers
-{
 struct Rcc
 {
 	template <typename aviableperipherals, aviableperipherals p>
@@ -391,4 +389,3 @@ struct Rcc
 		}
 	};
 };
-}

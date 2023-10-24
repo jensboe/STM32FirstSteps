@@ -3,8 +3,6 @@
 #include "Flash.hpp"
 #include "Pwr.hpp"
 
-using Rcc = registers::Rcc;
-
 void stm32f446::init(void)
 {
 

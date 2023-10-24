@@ -66,7 +66,7 @@ struct Usart
 
     constexpr static void init(void)
     {
-        registers::Rcc::enable<aviableperipherals, p>();
+        Rcc::enable<aviableperipherals, p>();
         disable();
         setStopbits(STOPBITS::STOP_1_0);
         setOversampling(OVERSAMPLING::BY_8);
