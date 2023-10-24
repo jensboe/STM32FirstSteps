@@ -1,7 +1,8 @@
 #pragma once
 #include "stm32f4.hpp"
 #include "SI/frequency.h"
-
+#include "Usart.hpp"
+#include "Rcc.hpp"
 struct stm32f446 : public stm32f4
 {
     enum class peripherals
@@ -13,7 +14,7 @@ struct stm32f446 : public stm32f4
         uart5,
         usart6,
     };
-
+    using Rcc = registers::Rcc;
     static void init(void);
     static void updateSystemCoreClock();
 };

@@ -3,23 +3,24 @@
 
 #include "stm32f446xx.h"
 #include <SI/baudrate.h>
+#include "Rcc.hpp"
 using namespace SI::literals;
-template <stm32f446::peripherals p>
+template <typename aviableperipherals, aviableperipherals p>
 struct Usart
 {
     constexpr static bool isUART()
     {
-        if constexpr (p == stm32f446::peripherals::usart1)
+        if constexpr (p == aviableperipherals::usart1)
             return true;
-        if constexpr (p == stm32f446::peripherals::usart2)
+        if constexpr (p == aviableperipherals::usart2)
             return true;
-        if constexpr (p == stm32f446::peripherals::usart3)
+        if constexpr (p == aviableperipherals::usart3)
             return true;
-        if constexpr (p == stm32f446::peripherals::uart4)
+        if constexpr (p == aviableperipherals::uart4)
             return true;
-        if constexpr (p == stm32f446::peripherals::uart5)
+        if constexpr (p == aviableperipherals::uart5)
             return true;
-        if constexpr (p == stm32f446::peripherals::usart6)
+        if constexpr (p == aviableperipherals::usart6)
             return true;
         return false;
     }
@@ -28,17 +29,17 @@ struct Usart
 
     constexpr static USART_TypeDef *reg(void)
     {
-        if constexpr (p == stm32f446::peripherals::usart1)
+        if constexpr (p == aviableperipherals::usart1)
             return USART1;
-        if constexpr (p == stm32f446::peripherals::usart2)
+        if constexpr (p == aviableperipherals::usart2)
             return USART2;
-        if constexpr (p == stm32f446::peripherals::usart3)
+        if constexpr (p == aviableperipherals::usart3)
             return USART3;
-        if constexpr (p == stm32f446::peripherals::uart4)
+        if constexpr (p == aviableperipherals::uart4)
             return UART4;
-        if constexpr (p == stm32f446::peripherals::uart5)
+        if constexpr (p == aviableperipherals::uart5)
             return UART5;
-        if constexpr (p == stm32f446::peripherals::usart6)
+        if constexpr (p == aviableperipherals::usart6)
             return USART6;
         return nullptr;
     }
@@ -65,7 +66,7 @@ struct Usart
 
     constexpr static void init(void)
     {
-        Rcc::enable<p>();
+        registers::Rcc::enable<aviableperipherals, p>();
         disable();
         setStopbits(STOPBITS::STOP_1_0);
         setOversampling(OVERSAMPLING::BY_8);

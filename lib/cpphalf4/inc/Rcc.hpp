@@ -3,41 +3,44 @@
 
 #include "stm32f446xx.h"
 #include "stm32f446.hpp"
+namespace registers
+{
 struct Rcc
 {
-	template <stm32f446::peripherals p>
+	template <typename aviableperipherals, aviableperipherals p>
 	static inline void enable(void)
 	{
-		static_assert(isSupported<p>(), "RCC: peripheral not supported");
+		static_assert(isSupported<aviableperipherals, p>(), "RCC: peripheral not supported");
 		// static_assert(1, "DIE");
 
-		if constexpr (p == stm32f446::peripherals::usart1)
+		if constexpr (p == aviableperipherals::usart1)
 			RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
-		if constexpr (p == stm32f446::peripherals::usart2)
+		if constexpr (p == aviableperipherals::usart2)
 			RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
-		if constexpr (p == stm32f446::peripherals::usart3)
+		if constexpr (p == aviableperipherals::usart3)
 			RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
-		if constexpr (p == stm32f446::peripherals::uart4)
+		if constexpr (p == aviableperipherals::uart4)
 			RCC->APB1ENR |= RCC_APB1ENR_UART4EN;
-		if constexpr (p == stm32f446::peripherals::uart5)
+		if constexpr (p == aviableperipherals::uart5)
 			RCC->APB1ENR |= RCC_APB1ENR_UART5EN;
-		if constexpr (p == stm32f446::peripherals::usart6)
+		if constexpr (p == aviableperipherals::usart6)
 			RCC->APB2ENR |= RCC_APB2ENR_USART6EN;
 	}
-	template <stm32f446::peripherals p>
+	
+	template <typename aviableperipherals, aviableperipherals p>
 	static inline constexpr bool isSupported(void)
 	{
-		if constexpr (p == stm32f446::peripherals::usart1)
+		if constexpr (p == aviableperipherals::usart1)
 			return true;
-		if constexpr (p == stm32f446::peripherals::usart2)
+		if constexpr (p == aviableperipherals::usart2)
 			return true;
-		if constexpr (p == stm32f446::peripherals::usart3)
+		if constexpr (p == aviableperipherals::usart3)
 			return true;
-		if constexpr (p == stm32f446::peripherals::uart4)
+		if constexpr (p == aviableperipherals::uart4)
 			return true;
-		if constexpr (p == stm32f446::peripherals::uart5)
+		if constexpr (p == aviableperipherals::uart5)
 			return true;
-		if constexpr (p == stm32f446::peripherals::usart6)
+		if constexpr (p == aviableperipherals::usart6)
 			return true;
 		return false;
 	}
@@ -388,3 +391,4 @@ struct Rcc
 		}
 	};
 };
+}

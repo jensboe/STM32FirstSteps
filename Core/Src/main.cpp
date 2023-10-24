@@ -60,9 +60,6 @@ int main(void)
 	GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
 	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-	using debug = Usart<stm32f446::peripherals::usart3>;
-
-	debug::init();
 	//MX_USART3_UART_Init();
 	huart3.Instance = USART3;
 	huart3.ErrorCode = HAL_UART_ERROR_NONE;
