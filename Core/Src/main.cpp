@@ -22,7 +22,6 @@
 
 using namespace SI::literals;
 
-constexpr auto sysTick_freq = 1_kHz;
 static void MX_GPIO_Init(void);
 
 
@@ -34,15 +33,12 @@ int main(void)
 {
 	board::mycontroller::init();
 	using com = board::mycontroller::debug;
-	SysTick_Config(SystemCoreClock / SI::hertz_t<uint32_t>(sysTick_freq).value());
 
 	/* Initialize all configured peripherals */
 	MX_GPIO_Init();
+	
 	// UART MSP INIT KRAMS
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
-	/* Peripheral clock enable */
-
-
 
 	__HAL_RCC_GPIOD_CLK_ENABLE();
 	/**USART3 GPIO Configuration
