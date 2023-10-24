@@ -1,13 +1,8 @@
 #pragma once
 #include "generics.hpp"
-#include "Nvic.hpp"
 struct stm32 : public generic_controller
 {
-    static void init(void)
-    {
-        generic_controller::init();
-        Nvic::setPriorityGrouping(Nvic::Grouping::PG4);
-    }
+    static void init(void);
 };
 struct stm32f4 : public stm32
 {
