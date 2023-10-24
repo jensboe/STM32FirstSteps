@@ -53,8 +53,8 @@ struct Usart
 
     enum class OVERSAMPLING
     {
-        BY_8 = UART_OVERSAMPLING_8,
-        BY_16 = UART_OVERSAMPLING_16,
+        BY_8 = USART_CR1_OVER8,
+        BY_16 = 0,
     };
 
     enum class WORDLENGHT
@@ -126,9 +126,10 @@ struct Usart
     }
     constexpr static void setBaudRate(const SI::baudrate_t<uint32_t> &baudrate)
     {
-        setBRR(convertBaudrate2BRR_8(168000000/4, baudrate.value()));
+        setBRR(convertBaudrate2BRR_8(168000000 / 4, baudrate.value()));
     }
-    private:
+
+private:
     constexpr static uint32_t convertBaudrate2BRR_8(const uint32_t &clk, const uint32_t &baudrate)
     {
         return ((calculateMantisse_8((clk), (baudrate)) << 4u) +
@@ -147,8 +148,9 @@ struct Usart
 
     constexpr static uint32_t calculate_fraq_8(const uint32_t &clk, const uint32_t &baudrate)
     {
-        return ((((calculate_div_8((clk), (baudrate)) - (calculate_div_8((clk), (baudrate)) * 100u)) * 8u) + 50u) / 100U);
+        return ((((calculate_div_8(clk, baudrate) - (calculate_divmant_8(clk, baudrate) * 100u)) * 8u) + 50u) / 100U);
     }
+
     constexpr static uint32_t calculate_divmant_8(const uint32_t &clk, const uint32_t &baudrate)
     {
         return (calculate_div_8(clk, baudrate) / 100U);
