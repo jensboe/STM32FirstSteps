@@ -147,7 +147,11 @@ struct Usart
 
     constexpr static uint32_t calculate_fraq_8(const uint32_t &clk, const uint32_t &baudrate)
     {
-        return ((((UART_DIV_SAMPLING8((clk), (baudrate)) - (UART_DIVMANT_SAMPLING8((clk), (baudrate)) * 100u)) * 8u) + 50u) / 100U);
+        return ((((calculate_div_8((clk), (baudrate)) - (calculate_div_8((clk), (baudrate)) * 100u)) * 8u) + 50u) / 100U);
+    }
+    constexpr static uint32_t calculate_divmant_8(const uint32_t &clk, const uint32_t &baudrate)
+    {
+        return (calculate_div_8(clk, baudrate) / 100U);
     }
 
     constexpr static void setBRR(const uint32_t &baudrate)
