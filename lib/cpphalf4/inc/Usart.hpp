@@ -130,6 +130,24 @@ struct Usart
         setBRR(convertBaudrate2BRR_8(168000000 / 4, baudrate.value()));
     }
 
+    static void write(const std::string_view& str)
+    {
+        for(const auto &c : str)
+        {
+            write(c);
+        }
+        write('\n');
+    }
+
+    static void write(const char& c)
+    {
+        while(((reg()->SR & USART_SR_TXE) == USART_SR_TXE) != true)
+        {
+
+        }
+        reg()->DR = c;
+    }
+
 private:
     constexpr static uint32_t convertBaudrate2BRR_8(const uint32_t &clk, const uint32_t &baudrate)
     {
