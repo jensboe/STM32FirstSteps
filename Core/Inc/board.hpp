@@ -6,14 +6,24 @@ namespace board
 {
     struct mycontroller : public stm32f446
     {
-        constexpr static SI::hertz_t<uint32_t> HSE {8_MHz};
+        constexpr static SI::hertz_t<uint32_t> HSE{8_MHz};
         constexpr static auto sysTick_freq = 1_kHz;
         using debug = Usart<peripherals, peripherals::usart3>;
+        using ld1 = Gpio<peripherals, peripherals::gpiob, 0>;
+        using ld2 = Gpio<peripherals, peripherals::gpiob, 7>;
+        using ld3 = Gpio<peripherals, peripherals::gpiob, 14>;
+        using stlk_rx = Gpio<peripherals, peripherals::gpiod, 8>;
+        using stlk_tx = Gpio<peripherals, peripherals::gpiod, 9>;
         static void init(void)
         {
             stm32f446::init();
             SysTick_Config(SystemCoreClock / SI::hertz_t<uint32_t>(sysTick_freq).value());
             debug::init();
+            ld1::init();
+            ld2::init();
+            ld3::init();
+            stlk_rx::init();
+            stlk_tx::init();
         }
     };
 }

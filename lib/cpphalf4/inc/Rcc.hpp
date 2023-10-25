@@ -9,8 +9,22 @@ struct Rcc
 	static inline void enable(void)
 	{
 		static_assert(isSupported<aviableperipherals, p>(), "RCC: peripheral not supported");
-		// static_assert(1, "DIE");
-
+		if constexpr (p == aviableperipherals::gpioa)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+		if constexpr (p == aviableperipherals::gpiob)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+		if constexpr (p == aviableperipherals::gpioc)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
+		if constexpr (p == aviableperipherals::gpiod)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
+		if constexpr (p == aviableperipherals::gpioe)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;
+		if constexpr (p == aviableperipherals::gpiof)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOFEN;
+		if constexpr (p == aviableperipherals::gpiog)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOGEN;
+		if constexpr (p == aviableperipherals::gpioh)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOHEN;
 		if constexpr (p == aviableperipherals::usart1)
 			RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
 		if constexpr (p == aviableperipherals::usart2)
@@ -24,10 +38,26 @@ struct Rcc
 		if constexpr (p == aviableperipherals::usart6)
 			RCC->APB2ENR |= RCC_APB2ENR_USART6EN;
 	}
-	
+
 	template <typename aviableperipherals, aviableperipherals p>
 	static inline constexpr bool isSupported(void)
 	{
+		if constexpr (p == aviableperipherals::gpioa)
+			return true;
+		if constexpr (p == aviableperipherals::gpiob)
+			return true;
+		if constexpr (p == aviableperipherals::gpioc)
+			return true;
+		if constexpr (p == aviableperipherals::gpiod)
+			return true;
+		if constexpr (p == aviableperipherals::gpioe)
+			return true;
+		if constexpr (p == aviableperipherals::gpiof)
+			return true;
+		if constexpr (p == aviableperipherals::gpiog)
+			return true;
+		if constexpr (p == aviableperipherals::gpioh)
+			return true;
 		if constexpr (p == aviableperipherals::usart1)
 			return true;
 		if constexpr (p == aviableperipherals::usart2)
@@ -40,6 +70,7 @@ struct Rcc
 			return true;
 		if constexpr (p == aviableperipherals::usart6)
 			return true;
+
 		return false;
 	}
 
