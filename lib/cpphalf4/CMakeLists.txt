@@ -17,7 +17,7 @@ target_sources(
 )
 add_common_target_properties(cpphalf4)
 
-target_link_libraries(cpphalf4 PRIVATE
+target_link_libraries(cpphalf4 PUBLIC
     cmsis_device_f4
     cmsis_5
     SI::SI

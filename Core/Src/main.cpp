@@ -22,9 +22,6 @@
 
 using namespace SI::literals;
 
-static void MX_GPIO_Init(void);
-
-
 /**
  * @brief  The application entry point.
  * @retval int
@@ -33,71 +30,44 @@ int main(void)
 {
 	board::mycontroller::init();
 	using com = board::mycontroller::debug;
+	using blinker1 = board::mycontroller::ld1;
+	using blinker2 = board::mycontroller::ld2;
+	using blinker3 = board::mycontroller::ld3;
+	using rx = board::mycontroller::stlk_rx;
+	using tx = board::mycontroller::stlk_tx;
 
-	/* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	
+
+
 	// UART MSP INIT KRAMS
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	// GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-	__HAL_RCC_GPIOD_CLK_ENABLE();
+	// __HAL_RCC_GPIOD_CLK_ENABLE();
 	/**USART3 GPIO Configuration
 	PD8     ------> USART3_TX
 	PD9     ------> USART3_RX
 	*/
-	GPIO_InitStruct.Pin = STLK_RX_Pin | STLK_TX_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
-	HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+	rx::reg()->AFR[8/8] |= 7;
+	
+	tx::reg()->AFR[9/8] |= (7<<(4*1));
+	tx::reg()->OSPEEDR = 0x4f0000ul;
+	tx::reg()->MODER = 0xa0000;
 
 	while (1)
 	{
 		com::write("Hello");
-		HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
-		HAL_Delay(500);
+		blinker1::write(true);
+		HAL_Delay(2);
+		blinker2::write(true);
+		HAL_Delay(2);
+		blinker3::write(true);
+		HAL_Delay(2);
+
+		blinker1::write(false);
+		blinker2::write(false);
+		blinker3::write(false);
+		HAL_Delay(5);
 	}
-}
-
-/**
- * @brief GPIO Initialization Function
- * @param None
- * @retval None
- */
-static void MX_GPIO_Init(void)
-{
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
-	/* GPIO Ports Clock Enable */
-	__HAL_RCC_GPIOC_CLK_ENABLE();
-	__HAL_RCC_GPIOH_CLK_ENABLE();
-	__HAL_RCC_GPIOB_CLK_ENABLE();
-	__HAL_RCC_GPIOD_CLK_ENABLE();
-	__HAL_RCC_GPIOG_CLK_ENABLE();
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(GPIOB, LD1_Pin | LD3_Pin | LD2_Pin, GPIO_PIN_RESET);
-
-
-	/*Configure GPIO pin : USER_Btn_Pin */
-	GPIO_InitStruct.Pin = USER_Btn_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(USER_Btn_GPIO_Port, &GPIO_InitStruct);
-
-	/*Configure GPIO pins : LD1_Pin LD3_Pin LD2_Pin */
-	GPIO_InitStruct.Pin = LD1_Pin | LD3_Pin | LD2_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-	/*Configure GPIO pin : USB_OverCurrent_Pin */
-	GPIO_InitStruct.Pin = USB_OverCurrent_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
 }
 
 /**
