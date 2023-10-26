@@ -20,16 +20,6 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
-
-	void Error_Handler(void);
-
 #define USER_Btn_Pin GPIO_PIN_13
 #define USER_Btn_GPIO_Port GPIOC
 #define MCO_Pin GPIO_PIN_0
@@ -56,9 +46,5 @@ extern "C"
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* __MAIN_H */
