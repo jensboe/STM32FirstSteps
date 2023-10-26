@@ -5,22 +5,23 @@
 #include <SI/baudrate.h>
 #include "Rcc.hpp"
 using namespace SI::literals;
-template <typename aviableperipherals, aviableperipherals p>
+template <typename controller, controller::peripherals p>
 struct Usart
 {
+    using peripheral =controller::peripherals;
     constexpr static bool isUART()
     {
-        if constexpr (p == aviableperipherals::usart1)
+        if constexpr (p == peripheral::usart1)
             return true;
-        if constexpr (p == aviableperipherals::usart2)
+        if constexpr (p == peripheral::usart2)
             return true;
-        if constexpr (p == aviableperipherals::usart3)
+        if constexpr (p == peripheral::usart3)
             return true;
-        if constexpr (p == aviableperipherals::uart4)
+        if constexpr (p == peripheral::uart4)
             return true;
-        if constexpr (p == aviableperipherals::uart5)
+        if constexpr (p == peripheral::uart5)
             return true;
-        if constexpr (p == aviableperipherals::usart6)
+        if constexpr (p == peripheral::usart6)
             return true;
         return false;
     }
@@ -29,17 +30,17 @@ struct Usart
 
     constexpr static USART_TypeDef *reg(void)
     {
-        if constexpr (p == aviableperipherals::usart1)
+        if constexpr (p == peripheral::usart1)
             return USART1;
-        if constexpr (p == aviableperipherals::usart2)
+        if constexpr (p == peripheral::usart2)
             return USART2;
-        if constexpr (p == aviableperipherals::usart3)
+        if constexpr (p == peripheral::usart3)
             return USART3;
-        if constexpr (p == aviableperipherals::uart4)
+        if constexpr (p == peripheral::uart4)
             return UART4;
-        if constexpr (p == aviableperipherals::uart5)
+        if constexpr (p == peripheral::uart5)
             return UART5;
-        if constexpr (p == aviableperipherals::usart6)
+        if constexpr (p == peripheral::usart6)
             return USART6;
         return nullptr;
     }
@@ -66,7 +67,7 @@ struct Usart
 
     constexpr static void init(void)
     {
-        Rcc::enable<aviableperipherals, p>();
+        Rcc::enable<controller, p>();
         disable();
         setStopbits(STOPBITS::STOP_1_0);
         setOversampling(OVERSAMPLING::BY_8);

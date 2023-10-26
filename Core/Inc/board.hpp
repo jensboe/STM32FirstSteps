@@ -4,18 +4,21 @@
 #include <SI/frequency.h>
 namespace board
 {
-    using ld1 = Gpio<stm32f446::peripherals, stm32f446::peripherals::gpiob, 0>;
-    using ld2 = Gpio<stm32f446::peripherals, stm32f446::peripherals::gpiob, 7>;
-    using ld3 = Gpio<stm32f446::peripherals, stm32f446::peripherals::gpiob, 14>;
+    using controller = stm32f446;
+    using peripheral = controller::peripherals;
+    using ld1 = Gpio<controller, peripheral::gpiob, 0>;
+    using ld2 = Gpio<controller, peripheral::gpiob, 7>;
+    using ld3 = Gpio<controller, peripheral::gpiob, 14>;
 
-    constexpr static SI::hertz_t<uint32_t> HSE{8_MHz};
-    constexpr static auto sysTick_freq = 1_kHz;
-    using debug = Usart<stm32f446::peripherals, stm32f446::peripherals::usart3>;
-    using stlk_rx = Gpio<stm32f446::peripherals, stm32f446::peripherals::gpiod, 8>;
-    using stlk_tx = Gpio<stm32f446::peripherals, stm32f446::peripherals::gpiod, 9>;
+    constexpr static SI::hertz_t<uint32_t> HSEabc{8_MHz};
+    constexpr static SI::hertz_t<uint32_t> sysTick_freq = 1_kHz;
+    using debug = Usart<controller, peripheral::usart3>;
+    using stlk_rx = Gpio<controller, peripheral::gpiod, 8>;
+    using stlk_tx = Gpio<controller, peripheral::gpiod, 9>;
+
     static void init(void)
     {
-        stm32f446::init();
+        controller::init();
         SysTick_Config(SystemCoreClock / SI::hertz_t<uint32_t>(sysTick_freq).value());
         debug::init();
         ld1::init();

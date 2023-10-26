@@ -6,38 +6,6 @@
 #include "SI/time.h"
 volatile uint32_t myTick;
 
-void stm32f446::init(void)
-{
-
-	stm32f4::init();
-	Flash::setICEN(true);
-	Flash::setDCEN(true);
-	Flash::setPRFTEN(true);
-	Rcc::APB1::setPWR(true);
-	Pwr::setVOS(Pwr::VOS::SCALE1);
-	Flash::setLatency(5);
-	Rcc::HSI::enable();
-	Rcc::SystemClock::setSource(Rcc::SystemClock::Source::HSI);
-	Rcc::HSE::enable(Rcc::HSE::Type::CLOCK);
-	const Rcc::PLL::config cfg =
-		{
-			.src = Rcc::PLL::Source::HSE,
-			.M = 4,
-			.N = 168,
-			.Pval = Rcc::PLL::P::DIV2,
-			.Q = 7,
-			.R = 2,
-		};
-	Rcc::PLL::set(cfg);
-	Rcc::AHB::set(Rcc::AHB::DIV::DIV1);
-	Rcc::AHB1::set(Rcc::AHB1::DIV::DIV4);
-	Rcc::AHB2::set(Rcc::AHB2::DIV::DIV2);
-	Rcc::PLL48CLK::set(Rcc::PLL48CLK::Source::PLLQ);
-	Rcc::SystemClock::setSource(Rcc::SystemClock::Source::PLLCLK);
-
-	updateSystemCoreClock();
-}
-
 void stm32f446::delay(SI::milli_seconds_t<uint32_t> delay)
 {
   uint32_t tickstart = myTick;
