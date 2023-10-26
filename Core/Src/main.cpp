@@ -28,13 +28,13 @@ using namespace SI::literals;
  */
 int main(void)
 {
-	board::mycontroller::init();
-	using com = board::mycontroller::debug;
+	board::init();
+	using com = board::debug;
 	using blinker1 = board::ld1;
 	using blinker2 = board::ld2;
 	using blinker3 = board::ld3;
-	using rx = board::mycontroller::stlk_rx;
-	using tx = board::mycontroller::stlk_tx;
+	using rx = board::stlk_rx;
+	using tx = board::stlk_tx;
 
 	// UART MSP INIT KRAMS
 	// GPIO_InitTypeDef GPIO_InitStruct = {0};
