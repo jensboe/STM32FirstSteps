@@ -15,7 +15,6 @@ target_include_directories(
     Inc
 )
 target_link_libraries(CORE PUBLIC
-    stm32f4xx_hal_driver
     cpphalf4
     SI::SI
 )
