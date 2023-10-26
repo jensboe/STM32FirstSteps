@@ -94,14 +94,6 @@ void PendSV_Handler(void)
 {
 }
 
-/**
- * @brief This function handles System tick timer.
- */
-void SysTick_Handler(void)
-{
-	HAL_IncTick();
-}
-
 /******************************************************************************/
 /* STM32F4xx Peripheral Interrupt Handlers                                    */
 /* Add here the Interrupt Handlers for the used peripherals.                  */
