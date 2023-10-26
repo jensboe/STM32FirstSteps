@@ -38,6 +38,15 @@ void stm32f446::init(void)
 	updateSystemCoreClock();
 }
 
+void stm32f446::delay(SI::milli_seconds_t<uint32_t> delay)
+{
+  uint32_t tickstart = myTick;
+  uint32_t wait = delay.value();
+
+  while((myTick - tickstart) < wait)
+  {
+  }
+}
 
 void stm32f446::updateSystemCoreClock()
 {

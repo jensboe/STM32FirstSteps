@@ -25,6 +25,7 @@ struct stm32f446 : public stm32f4
         usart6,
     };
     static void init(void);
+    static void delay(SI::milli_seconds_t<uint32_t> delay);
     static void updateSystemCoreClock();
 };
 extern "C" void SysTick_Handler(void);
