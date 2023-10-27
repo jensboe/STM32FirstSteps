@@ -90,7 +90,7 @@ struct Rcc
 			RCC->CR &= ~RCC_CR_HSEBYP;
 			while (isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -110,7 +110,7 @@ struct Rcc
 
 			while (not isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -130,7 +130,7 @@ struct Rcc
 
 			while (isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -143,7 +143,7 @@ struct Rcc
 
 			while (not isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -173,7 +173,7 @@ struct Rcc
 			// Readback System Clock Switch Status
 			while (getSource() != source)
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -268,7 +268,7 @@ struct Rcc
 			RCC->CR |= RCC_CR_PLLON;
 			while (not isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -280,14 +280,14 @@ struct Rcc
 			RCC->CR &= ~RCC_CR_PLLON;
 			while (isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
 			}
 		}
 
-		static inline void setSource(Source source = Source::HSE, uint32_t timeout = 2000)
+		static inline void setSource(Source source = Source::HSE)
 		{
 			RCC->PLLCFGR = (RCC->PLLCFGR & ~RCC_PLLCFGR_PLLSRC) | uint32_t(source);
 		}
