@@ -128,7 +128,7 @@ struct Usart
     }
     constexpr static void setBaudRate(const SI::baudrate_t<uint32_t> &baudrate)
     {
-        setBRR(convertBaudrate2BRR_8(168000000 / 4, baudrate.value()));
+        setBRR(convertBaudrate2BRR_8(controller::Clocktree::getPCLK1().value(), baudrate.value()));
     }
 
     static void write(const std::string_view& str)

@@ -7,7 +7,8 @@
 #include "Rcc.hpp"
 #include "Flash.hpp"
 #include "Pwr.hpp"
-
+volatile uint32_t myTick;
+template <SI::hertz_t<uint32_t> HSE, SI::hertz_t<uint32_t> target_SYSCLK>
 struct stm32f446 : public stm32f4
 {
     enum class peripherals
@@ -28,8 +29,7 @@ struct stm32f446 : public stm32f4
         usart6,
     };
     static constexpr SI::hertz_t<uint32_t> HSI = 16_MHz;
-    
-    template<SI::hertz_t<uint32_t> HSE, SI::hertz_t<uint32_t> target_SYSCLK>
+
     struct Clocktree
     {
         Rcc::SystemClock::Source SysClkMux;
@@ -115,26 +115,24 @@ struct stm32f446 : public stm32f4
         static constexpr SI::hertz_t<uint32_t> getHCLK(void)
         {
             constexpr auto cfg = calculate();
-            return getSYSCLK() / cfg.ahb;
+            return getSYSCLK() / 1;
         }
 
         static constexpr SI::hertz_t<uint32_t> getPCLK1(void)
         {
             constexpr auto cfg = calculate();
-            return getHCLK() / cfg.ahb1;
+            return getHCLK() / 4;
         }
         static constexpr SI::hertz_t<uint32_t> getPCLK2(void)
         {
             constexpr auto cfg = calculate();
-            return getHCLK() / cfg.ahb2;
+            return getHCLK() / 2;
         }
     };
 
-    template<SI::hertz_t<uint32_t> HSE, SI::hertz_t<uint32_t> target_SYSCLK>
     static void init(void)
     {
-        using clocktree = Clocktree<HSE, target_SYSCLK>;
-        constexpr auto ct_cfg = clocktree::calculate();
+        constexpr auto ct_cfg = Clocktree::calculate();
         stm32f4::init();
         Flash::setICEN(true);
         Flash::setDCEN(true);
@@ -151,9 +149,22 @@ struct stm32f446 : public stm32f4
         Rcc::AHB1::set(Rcc::AHB1::DIV::DIV4);
         Rcc::AHB2::set(Rcc::AHB2::DIV::DIV2);
         Rcc::SystemClock::setSource(ct_cfg.SysClkMux);
-        SystemCoreClock = clocktree::getSYSCLK().value();
+        SystemCoreClock = Clocktree::getSYSCLK().value();
+    }
+    static void delay(SI::milli_seconds_t<uint32_t> delay)
+    {
+        uint32_t tickstart = myTick;
+        uint32_t wait = delay.value();
+
+        while ((myTick - tickstart) < wait)
+        {
+        }
     }
 
-    static void delay(SI::milli_seconds_t<uint32_t> delay);
 };
-extern "C" void SysTick_Handler(void);
+
+
+extern "C" void SysTick_Handler(void)
+{
+	myTick = myTick + 1;
+}
