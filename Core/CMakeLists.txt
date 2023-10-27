@@ -42,3 +42,8 @@ add_custom_command(
     COMMAND ${CMAKE_OBJCOPY} -O binary
     $<TARGET_FILE:CORE> CORE.bin
 )
+add_custom_command(
+    TARGET CORE POST_BUILD
+    COMMAND ${CMAKE_NM} --print-size --size-sort -r --radix=d
+    $<TARGET_FILE:CORE>
+)

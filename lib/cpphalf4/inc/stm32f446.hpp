@@ -7,6 +7,7 @@
 #include "Rcc.hpp"
 #include "Flash.hpp"
 #include "Pwr.hpp"
+
 struct stm32f446 : public stm32f4
 {
     enum class peripherals

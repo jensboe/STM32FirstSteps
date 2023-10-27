@@ -19,7 +19,7 @@ namespace board
     static void init(void)
     {
         controller::init();
-        SysTick_Config(SystemCoreClock / SI::hertz_t<uint32_t>(sysTick_freq).value());
+        SysTick_Config(SystemCoreClock / sysTick_freq.value());
         debug::init();
         ld1::init();
         ld2::init();

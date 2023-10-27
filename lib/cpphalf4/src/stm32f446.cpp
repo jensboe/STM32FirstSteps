@@ -19,6 +19,7 @@ void stm32f446::delay(SI::milli_seconds_t<uint32_t> delay)
 void stm32f446::updateSystemCoreClock()
 {
 	SI::hertz_t<uint32_t> clk = 16_MHz;
+	SI::hertz_t<uint32_t> HSE = 8_MHz;
 
 	switch (Rcc::SystemClock::getSource())
 	{
