@@ -35,6 +35,7 @@ int main(void)
 	using blinker3 = board::ld3;
 	using rx = board::stlk_rx;
 	using tx = board::stlk_tx;
+	using util = board::controller;
 
 	// UART MSP INIT KRAMS
 	// GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -55,15 +56,15 @@ int main(void)
 	{
 		com::write("Hello");
 		blinker1::write(true);
-		stm32f446::delay(250_ms);
+		util::delay(250_ms);
 		blinker2::write(true);
-		stm32f446::delay(250_ms);
+		util::delay(250_ms);
 		blinker3::write(true);
-		stm32f446::delay(250_ms);
+		util::delay(250_ms);
 
 		blinker1::write(false);
 		blinker2::write(false);
 		blinker3::write(false);
-		stm32f446::delay(250_ms);
+		util::delay(250_ms);
 	}
 }
