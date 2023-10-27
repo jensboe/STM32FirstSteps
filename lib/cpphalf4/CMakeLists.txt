@@ -13,7 +13,6 @@ target_include_directories(
 target_sources(
     cpphalf4 PRIVATE
     src/stm32f446.cpp
-    src/stm32f4.cpp
 )
 add_common_target_properties(cpphalf4)
 
