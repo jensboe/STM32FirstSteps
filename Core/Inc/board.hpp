@@ -10,7 +10,7 @@ namespace board
     using ld2 = Gpio<controller, peripheral::gpiob, 7>;
     using ld3 = Gpio<controller, peripheral::gpiob, 14>;
 
-    constexpr static SI::hertz_t<uint32_t> HSEabc{8_MHz};
+    constexpr static SI::hertz_t<uint32_t> HSE{8_MHz};
     constexpr static SI::hertz_t<uint32_t> sysTick_freq = 1_kHz;
     using debug = Usart<controller, peripheral::usart3>;
     using stlk_rx = Gpio<controller, peripheral::gpiod, 8>;
@@ -18,7 +18,7 @@ namespace board
 
     static void init(void)
     {
-        controller::init();
+        controller::init<HSE, 168_MHz>();
         SysTick_Config(SystemCoreClock / sysTick_freq.value());
         debug::init();
         ld1::init();
