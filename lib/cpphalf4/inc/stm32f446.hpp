@@ -46,23 +46,50 @@ struct stm32f446 : public stm32f4
             return true;
         return false;
     }
+
     template <peripherals p>
-    constexpr static USART_TypeDef *reg(void)
+    constexpr static bool isGPIO()
     {
-        static_assert(isUART<p>(), " Given peripheral isn't a UART");
-        if constexpr (p == peripherals::usart1)
-            return USART1;
-        if constexpr (p == peripherals::usart2)
-            return USART2;
-        if constexpr (p == peripherals::usart3)
-            return USART3;
-        if constexpr (p == peripherals::uart4)
-            return UART4;
-        if constexpr (p == peripherals::uart5)
-            return UART5;
-        if constexpr (p == peripherals::usart6)
-            return USART6;
-        return nullptr;
+        if constexpr (p == peripherals::gpioa)
+            return true;
+        if constexpr (p == peripherals::gpiob)
+            return true;
+        if constexpr (p == peripherals::gpioc)
+            return true;
+        if constexpr (p == peripherals::gpiod)
+            return true;
+        if constexpr (p == peripherals::gpioe)
+            return true;
+        if constexpr (p == peripherals::gpiof)
+            return true;
+        if constexpr (p == peripherals::gpiog)
+            return true;
+        if constexpr (p == peripherals::gpioh)
+            return true;
+        return false;
+    }
+    
+    template <peripherals p, typename Gpio>
+    constexpr static uint32_t getAlternateFunctionNumber(void)
+    {
+        if constexpr (Gpio::getPeripheral() == peripherals::gpiod)
+        {
+            if constexpr (Gpio::getPinNumber() == 8)
+            {
+                if constexpr (p == peripherals::usart3)
+                {
+                    return 7;
+                }
+            }
+            if constexpr (Gpio::getPinNumber() == 9)
+            {
+                if constexpr (p == peripherals::usart3)
+                {
+                    return 7;
+                }
+            }
+        }
+        return 0;
     }
 
     struct Clocktree
