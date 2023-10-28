@@ -8,13 +8,25 @@ using namespace SI::literals;
 template <typename controller, controller::peripherals p>
 struct Usart
 {
-    using peripheral =controller::peripherals;
+    using peripheral = controller::peripherals;
 
     static_assert(controller::template isUART<p>(), " Given peripheral isn't a UART");
 
     constexpr static USART_TypeDef *reg(void)
     {
-        return controller::template reg<p>();
+        if constexpr (p == peripheral::usart1)
+            return USART1;
+        if constexpr (p == peripheral::usart2)
+            return USART2;
+        if constexpr (p == peripheral::usart3)
+            return USART3;
+        if constexpr (p == peripheral::uart4)
+            return UART4;
+        if constexpr (p == peripheral::uart5)
+            return UART5;
+        if constexpr (p == peripheral::usart6)
+            return USART6;
+        return nullptr;
     }
 
     enum class STOPBITS
@@ -104,20 +116,19 @@ struct Usart
         setBRR(convertBaudrate2BRR_8(controller::Clocktree::getPCLK1().value(), baudrate.value()));
     }
 
-    static void write(const std::string_view& str)
+    static void write(const std::string_view &str)
     {
-        for(const auto &c : str)
+        for (const auto &c : str)
         {
             write(c);
         }
         write('\n');
     }
 
-    static void write(const char& c)
+    static void write(const char &c)
     {
-        while(((reg()->SR & USART_SR_TXE) == USART_SR_TXE) != true)
+        while (((reg()->SR & USART_SR_TXE) == USART_SR_TXE) != true)
         {
-
         }
         reg()->DR = c;
     }

@@ -6,28 +6,8 @@ template <typename controller, controller::peripherals p, uint32_t pin_nr>
 struct Gpio
 {
     using peripheral = controller::peripherals;
-    constexpr static bool isGPIO()
-    {
-        if constexpr (p == peripheral::gpioa)
-            return true;
-        if constexpr (p == peripheral::gpiob)
-            return true;
-        if constexpr (p == peripheral::gpioc)
-            return true;
-        if constexpr (p == peripheral::gpiod)
-            return true;
-        if constexpr (p == peripheral::gpioe)
-            return true;
-        if constexpr (p == peripheral::gpiof)
-            return true;
-        if constexpr (p == peripheral::gpiog)
-            return true;
-        if constexpr (p == peripheral::gpioh)
-            return true;
-        return false;
-    }
 
-    static_assert(isGPIO(), " Given peripheral isn't a GPIO");
+    static_assert(controller:: template isGPIO<p>(), " Given peripheral isn't a GPIO");
 
     constexpr static GPIO_TypeDef *reg(void)
     {
@@ -47,9 +27,9 @@ struct Gpio
             return GPIOG;
         if constexpr (p == peripheral::gpioh)
             return GPIOH;
-
         return nullptr;
     }
+
     constexpr static void init(void)
     {
         Rcc::enable<controller, p>();
