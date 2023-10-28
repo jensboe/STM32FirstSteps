@@ -4,7 +4,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         container: 
-          image: jensboe/arm-cortex-build;v1.0.0
+          image: jensboe/arm-cortex-build:v1.0.0
         steps:
         - name: Checkout
           uses: actions/Checkout@v4
