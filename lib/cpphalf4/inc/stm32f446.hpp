@@ -37,7 +37,6 @@ struct stm32f446 : public stm32f4
         Rcc::AHB::DIV ahb;
         Rcc::AHB1::DIV ahb1;
         Rcc::AHB2::DIV ahb2;
-
         static constexpr Clocktree calculate()
         {
             constexpr Clocktree cfg = {
@@ -66,7 +65,6 @@ struct stm32f446 : public stm32f4
         {
             return HSE;
         }
-
         static constexpr SI::hertz_t<uint32_t> getPLLSourceMux(void)
         {
             constexpr auto cfg = calculate();
@@ -85,7 +83,7 @@ struct stm32f446 : public stm32f4
             constexpr auto cfg = calculate();
             return getPLLSourceMux() / (2 * cfg.pllcfg.M) * cfg.pllcfg.N;
         }
-
+        
         static constexpr SI::hertz_t<uint32_t> getPLLR(void)
         {
             constexpr auto cfg = calculate();
@@ -114,21 +112,30 @@ struct stm32f446 : public stm32f4
         }
         static constexpr SI::hertz_t<uint32_t> getHCLK(void)
         {
-            constexpr auto cfg = calculate();
             return getSYSCLK() / 1;
         }
 
         static constexpr SI::hertz_t<uint32_t> getPCLK1(void)
         {
-            constexpr auto cfg = calculate();
             return getHCLK() / 4;
         }
         static constexpr SI::hertz_t<uint32_t> getPCLK2(void)
         {
-            constexpr auto cfg = calculate();
             return getHCLK() / 2;
         }
     };
+
+    static_assert(Clocktree::getHSE() < 50_MHz, "HSE is to fast");
+    static_assert(Clocktree::getSYSCLK() < 180_MHz, "SYSCLK is to fast");
+    static_assert(Clocktree::getPLLCLK() < 180_MHz, "PLLCLK (P) is to fast");
+    static_assert(Clocktree::getPLLCLK() > 24_MHz, "PLLCLK (P) is to slow");
+    static_assert(Clocktree::getPLLCLK() * 2 < 432_MHz, "PLLCLK (N) is to fast");
+    static_assert(Clocktree::getPLLCLK() * 2 > 100_MHz, "PLLCLK (N) is to slow");
+    static_assert(Clocktree::getPLLSourceMux() / Clocktree::calculate().pllcfg.M > 950_kHz, "PLLCLK (M) is to slow");
+    static_assert(Clocktree::getPLLSourceMux() / Clocktree::calculate().pllcfg.M < 2'100_kHz, "PLLCLK (M) is to fast");
+    static_assert(Clocktree::getHCLK() < 180_MHz, "HCLK is to fast");
+    static_assert(Clocktree::getPCLK1() < 45_MHz, "PCLK1 is to fast");
+    static_assert(Clocktree::getPCLK2() < 90_MHz, "PCLK2 is to fast");
 
     static void init(void)
     {
