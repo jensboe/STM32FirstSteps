@@ -14,7 +14,14 @@ jobs:
           run: |
             cmake -G Ninja -S . -B build --toolchain cmake/gcc-arm-none-eabi.cmake -DCMAKE_BUILD_TYPE=release 
             cmake --build build
-
-
+        - uses: actions/upload-artifact@v3
+          with:
+            name: Core
+            path: |
+              build/**/*.bin
+              build/**/*.elf
+              build/**/*.hex
+              build/**/*.a
+              build/**/*.map
 
 
