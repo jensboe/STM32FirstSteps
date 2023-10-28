@@ -9,4 +9,4 @@
 	url = https://github.com/ARM-software/CMSIS_5
 [submodule "ext/SI"]
 	path = ext/SI
-	url = https://github.com/bernedom/SI
+	url = https://github.com/jensboe/SI
