@@ -5,7 +5,6 @@
 using namespace SI::literals;
 struct stm32 : public generic_controller
 {
-    constexpr static auto sysTick_freq = 1_kHz;
     static void init(void)
     {
         generic_controller::init();

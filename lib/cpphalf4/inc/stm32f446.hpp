@@ -8,7 +8,7 @@
 #include "Flash.hpp"
 #include "Pwr.hpp"
 volatile uint32_t myTick;
-template <SI::hertz_t<uint32_t> HSE, SI::hertz_t<uint32_t> target_SYSCLK>
+template <SI::hertz_t<uint32_t> HSE, SI::hertz_t<uint32_t> target_SYSCLK, SI::hertz_t<uint32_t> systick>
 struct stm32f446 : public stm32f4
 {
     static constexpr SI::hertz_t<uint32_t> HSI = 16_MHz;
@@ -29,7 +29,7 @@ struct stm32f446 : public stm32f4
         uart5,
         usart6,
     };
-    template<peripherals p>
+    template <peripherals p>
     constexpr static bool isUART()
     {
         if constexpr (p == peripherals::usart1)
@@ -46,7 +46,7 @@ struct stm32f446 : public stm32f4
             return true;
         return false;
     }
-    template<peripherals p>
+    template <peripherals p>
     constexpr static USART_TypeDef *reg(void)
     {
         static_assert(isUART<p>(), " Given peripheral isn't a UART");
@@ -64,7 +64,6 @@ struct stm32f446 : public stm32f4
             return USART6;
         return nullptr;
     }
-
 
     struct Clocktree
     {
@@ -119,7 +118,7 @@ struct stm32f446 : public stm32f4
             constexpr auto cfg = calculate();
             return getPLLSourceMux() / (2 * cfg.pllcfg.M) * cfg.pllcfg.N;
         }
-        
+
         static constexpr SI::hertz_t<uint32_t> getPLLR(void)
         {
             constexpr auto cfg = calculate();
@@ -193,6 +192,7 @@ struct stm32f446 : public stm32f4
         Rcc::AHB2::set(Rcc::AHB2::DIV::DIV2);
         Rcc::SystemClock::setSource(ct_cfg.SysClkMux);
         SystemCoreClock = Clocktree::getSYSCLK().value();
+        SysTick_Config(SystemCoreClock / systick.value());
     }
     static void delay(SI::milli_seconds_t<uint32_t> delay)
     {
@@ -203,11 +203,9 @@ struct stm32f446 : public stm32f4
         {
         }
     }
-
 };
-
 
 extern "C" void SysTick_Handler(void)
 {
-	myTick = myTick + 1;
+    myTick = myTick + 1;
 }
