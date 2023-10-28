@@ -11,6 +11,7 @@ volatile uint32_t myTick;
 template <SI::hertz_t<uint32_t> HSE, SI::hertz_t<uint32_t> target_SYSCLK>
 struct stm32f446 : public stm32f4
 {
+    static constexpr SI::hertz_t<uint32_t> HSI = 16_MHz;
     enum class peripherals
     {
         gpioa,
@@ -28,7 +29,42 @@ struct stm32f446 : public stm32f4
         uart5,
         usart6,
     };
-    static constexpr SI::hertz_t<uint32_t> HSI = 16_MHz;
+    template<peripherals p>
+    constexpr static bool isUART()
+    {
+        if constexpr (p == peripherals::usart1)
+            return true;
+        if constexpr (p == peripherals::usart2)
+            return true;
+        if constexpr (p == peripherals::usart3)
+            return true;
+        if constexpr (p == peripherals::uart4)
+            return true;
+        if constexpr (p == peripherals::uart5)
+            return true;
+        if constexpr (p == peripherals::usart6)
+            return true;
+        return false;
+    }
+    template<peripherals p>
+    constexpr static USART_TypeDef *reg(void)
+    {
+        static_assert(isUART<p>(), " Given peripheral isn't a UART");
+        if constexpr (p == peripherals::usart1)
+            return USART1;
+        if constexpr (p == peripherals::usart2)
+            return USART2;
+        if constexpr (p == peripherals::usart3)
+            return USART3;
+        if constexpr (p == peripherals::uart4)
+            return UART4;
+        if constexpr (p == peripherals::uart5)
+            return UART5;
+        if constexpr (p == peripherals::usart6)
+            return USART6;
+        return nullptr;
+    }
+
 
     struct Clocktree
     {

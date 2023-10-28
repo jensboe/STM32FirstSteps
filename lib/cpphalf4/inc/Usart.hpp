@@ -9,40 +9,12 @@ template <typename controller, controller::peripherals p>
 struct Usart
 {
     using peripheral =controller::peripherals;
-    constexpr static bool isUART()
-    {
-        if constexpr (p == peripheral::usart1)
-            return true;
-        if constexpr (p == peripheral::usart2)
-            return true;
-        if constexpr (p == peripheral::usart3)
-            return true;
-        if constexpr (p == peripheral::uart4)
-            return true;
-        if constexpr (p == peripheral::uart5)
-            return true;
-        if constexpr (p == peripheral::usart6)
-            return true;
-        return false;
-    }
 
-    static_assert(isUART(), " Given peripheral isn't a UART");
+    static_assert(controller::template isUART<p>(), " Given peripheral isn't a UART");
 
     constexpr static USART_TypeDef *reg(void)
     {
-        if constexpr (p == peripheral::usart1)
-            return USART1;
-        if constexpr (p == peripheral::usart2)
-            return USART2;
-        if constexpr (p == peripheral::usart3)
-            return USART3;
-        if constexpr (p == peripheral::uart4)
-            return UART4;
-        if constexpr (p == peripheral::uart5)
-            return UART5;
-        if constexpr (p == peripheral::usart6)
-            return USART6;
-        return nullptr;
+        return controller::template reg<p>();
     }
 
     enum class STOPBITS
@@ -78,32 +50,32 @@ struct Usart
         enable();
     }
 
-    constexpr static void enable(void)
+    static inline void enable(void)
     {
         reg()->CR1 |= USART_CR1_UE;
     }
 
-    constexpr static void disable(void)
+    static inline void disable(void)
     {
         reg()->CR1 &= ~USART_CR1_UE;
     }
 
-    constexpr static void setStopbits(const STOPBITS &value)
+    static inline void setStopbits(const STOPBITS &value)
     {
         reg()->CR2 = (reg()->CR2 & ~USART_CR2_STOP) | uint32_t(value);
     }
 
-    constexpr static void setOversampling(const OVERSAMPLING &value)
+    static inline void setOversampling(const OVERSAMPLING &value)
     {
         reg()->CR1 = (reg()->CR1 & ~USART_CR1_OVER8_Msk) | uint32_t(value);
     }
 
-    constexpr static void setWordlength(const WORDLENGHT &value)
+    static inline void setWordlength(const WORDLENGHT &value)
     {
         reg()->CR1 = (reg()->CR1 & ~USART_CR1_M_Msk) | uint32_t(value);
     }
 
-    constexpr static void setTransmitterEnable(const bool &value)
+    static inline void setTransmitterEnable(const bool &value)
     {
         if (value)
         {
@@ -115,7 +87,7 @@ struct Usart
         }
     }
 
-    constexpr static void setReceiverEnable(const bool &value)
+    static inline void setReceiverEnable(const bool &value)
     {
         if (value)
         {
@@ -126,7 +98,8 @@ struct Usart
             reg()->CR1 &= ~USART_CR1_RE;
         }
     }
-    constexpr static void setBaudRate(const SI::baudrate_t<uint32_t> &baudrate)
+
+    static inline void setBaudRate(const SI::baudrate_t<uint32_t> &baudrate)
     {
         setBRR(convertBaudrate2BRR_8(controller::Clocktree::getPCLK1().value(), baudrate.value()));
     }
