@@ -10,7 +10,7 @@ jobs:
                 && tar -xf arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi.tar.xz -C /opt \
                 && echo "/opt/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi/bin" >> $GITHUB_PATH
             - name: Checkout
-              uses: actions/Checkout
+              uses: actions/Checkout@v4
             - name: Build
               run: |
                 cmake . -B build --toolchain cmake\gcc-arm-none-eabi.cmake -DCMAKE_BUILD_TYPE=release
