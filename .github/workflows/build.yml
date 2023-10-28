@@ -10,8 +10,7 @@ jobs:
           uses: actions/Checkout@v4
         - name: Build
           run: |
-            cmake -G Ninja
-            cmake . -B build --toolchain cmake\gcc-arm-none-eabi.cmake -DCMAKE_BUILD_TYPE=release 
+            cmake -G Ninja -S . -B build --toolchain cmake\gcc-arm-none-eabi.cmake -DCMAKE_BUILD_TYPE=release 
             cmake --build .
 
 
