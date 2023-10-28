@@ -9,11 +9,22 @@ target_compile_definitions(
 target_compile_options(
     ${TARGET_NAME} PRIVATE
     $<$<CONFIG:Debug>:-g3>
-    $<$<NOT:$<CONFIG:Debug>>:-g0>
+    $<$<NOT:$<CONFIG:Debug>>:-g1>
     $<$<NOT:$<CONFIG:Debug>>:-Os>
     -mcpu=cortex-m4
     -mfpu=fpv4-sp-d16
     -mfloat-abi=hard
+    -fdata-sections
+    -ffunction-sections
+    $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
+    $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
+    $<$<COMPILE_LANGUAGE:CXX>:-fno-threadsafe-statics>
+    -Wall
+    -Wextra
+    -Wshadow
+    -Wundef
+    -fno-common
+    -fstack-usage
 )
 
 target_link_libraries(
@@ -29,6 +40,11 @@ target_link_options(
     -mcpu=cortex-m4
     -mfpu=fpv4-sp-d16
     -mfloat-abi=hard
+    -fdata-sections
+    -ffunction-sections
+    -Wl,--gc-sections
+    -Wl,-Map=${TARGET_NAME}.map
 )
 
+target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
 endfunction()

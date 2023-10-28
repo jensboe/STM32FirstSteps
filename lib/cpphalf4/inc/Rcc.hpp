@@ -2,8 +2,80 @@
 #include <cstdint>
 
 #include "stm32f446xx.h"
+#include "stm32f446.hpp"
 struct Rcc
 {
+	template <typename controller, controller::peripherals p>
+	static inline void enable(void)
+	{
+		using peripheral = controller::peripherals;
+		static_assert(isSupported<controller, p>(), "RCC: peripheral not supported");
+		if constexpr (p == peripheral::gpioa)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+		if constexpr (p == peripheral::gpiob)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+		if constexpr (p == peripheral::gpioc)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
+		if constexpr (p == peripheral::gpiod)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
+		if constexpr (p == peripheral::gpioe)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;
+		if constexpr (p == peripheral::gpiof)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOFEN;
+		if constexpr (p == peripheral::gpiog)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOGEN;
+		if constexpr (p == peripheral::gpioh)
+			RCC->AHB1ENR |= RCC_AHB1ENR_GPIOHEN;
+		if constexpr (p == peripheral::usart1)
+			RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
+		if constexpr (p == peripheral::usart2)
+			RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
+		if constexpr (p == peripheral::usart3)
+			RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
+		if constexpr (p == peripheral::uart4)
+			RCC->APB1ENR |= RCC_APB1ENR_UART4EN;
+		if constexpr (p == peripheral::uart5)
+			RCC->APB1ENR |= RCC_APB1ENR_UART5EN;
+		if constexpr (p == peripheral::usart6)
+			RCC->APB2ENR |= RCC_APB2ENR_USART6EN;
+	}
+
+	template <typename controller, controller::peripherals p>
+	static inline constexpr bool isSupported(void)
+	{
+		using peripheral = controller::peripherals;
+		if constexpr (p == peripheral::gpioa)
+			return true;
+		if constexpr (p == peripheral::gpiob)
+			return true;
+		if constexpr (p == peripheral::gpioc)
+			return true;
+		if constexpr (p == peripheral::gpiod)
+			return true;
+		if constexpr (p == peripheral::gpioe)
+			return true;
+		if constexpr (p == peripheral::gpiof)
+			return true;
+		if constexpr (p == peripheral::gpiog)
+			return true;
+		if constexpr (p == peripheral::gpioh)
+			return true;
+		if constexpr (p == peripheral::usart1)
+			return true;
+		if constexpr (p == peripheral::usart2)
+			return true;
+		if constexpr (p == peripheral::usart3)
+			return true;
+		if constexpr (p == peripheral::uart4)
+			return true;
+		if constexpr (p == peripheral::uart5)
+			return true;
+		if constexpr (p == peripheral::usart6)
+			return true;
+
+		return false;
+	}
+
 	struct HSE
 	{
 		enum class Type
@@ -18,7 +90,7 @@ struct Rcc
 			RCC->CR &= ~RCC_CR_HSEBYP;
 			while (isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -38,7 +110,7 @@ struct Rcc
 
 			while (not isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -58,7 +130,7 @@ struct Rcc
 
 			while (isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -71,7 +143,7 @@ struct Rcc
 
 			while (not isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -101,7 +173,7 @@ struct Rcc
 			// Readback System Clock Switch Status
 			while (getSource() != source)
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -196,7 +268,7 @@ struct Rcc
 			RCC->CR |= RCC_CR_PLLON;
 			while (not isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
@@ -208,14 +280,14 @@ struct Rcc
 			RCC->CR &= ~RCC_CR_PLLON;
 			while (isReady())
 			{
-				if (--timeout < 0)
+				if (--timeout == 0)
 				{
 					return;
 				}
 			}
 		}
 
-		static inline void setSource(Source source = Source::HSE, uint32_t timeout = 2000)
+		static inline void setSource(Source source = Source::HSE)
 		{
 			RCC->PLLCFGR = (RCC->PLLCFGR & ~RCC_PLLCFGR_PLLSRC) | uint32_t(source);
 		}
@@ -335,7 +407,8 @@ struct Rcc
 		}
 	};
 
-	struct APB1 {
+	struct APB1
+	{
 		static inline void setPWR(const bool value)
 		{
 			if (value)

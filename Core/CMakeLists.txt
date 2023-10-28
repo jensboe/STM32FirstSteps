@@ -6,7 +6,6 @@ add_executable(CORE)
 target_sources(
     CORE PRIVATE
     Src/main.cpp
-    Src/stm32f4xx_hal_msp.c
     Src/stm32f4xx_it.c
     Src/syscalls.c
     Src/sysmem.c
@@ -16,7 +15,6 @@ target_include_directories(
     Inc
 )
 target_link_libraries(CORE PUBLIC
-    stm32f4xx_hal_driver
     cpphalf4
     SI::SI
 )
@@ -44,3 +42,8 @@ add_custom_command(
     COMMAND ${CMAKE_OBJCOPY} -O binary
     $<TARGET_FILE:CORE> CORE.bin
 )
+# add_custom_command(
+#     TARGET CORE POST_BUILD
+#     COMMAND ${CMAKE_NM} --print-size --size-sort -r --radix=d
+#     $<TARGET_FILE:CORE>
+# )

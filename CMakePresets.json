@@ -27,16 +27,14 @@
       "name": "debug",
       "inherits": "default",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "PRESET_NAME": "debug"
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
       "name": "release",
       "inherits": "default",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "PRESET_NAME": "release"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     }
   ],
