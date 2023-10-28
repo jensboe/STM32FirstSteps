@@ -33,24 +33,10 @@ int main(void)
 	using blinker1 = board::ld1;
 	using blinker2 = board::ld2;
 	using blinker3 = board::ld3;
-	using rx = board::stlk_rx;
-	using tx = board::stlk_tx;
 	using util = board::controller;
-
-	// UART MSP INIT KRAMS
-	// GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-	// __HAL_RCC_GPIOD_CLK_ENABLE();
-	/**USART3 GPIO Configuration
-	PD8     ------> USART3_TX
-	PD9     ------> USART3_RX
-	*/
-
-	rx::reg()->AFR[8 / 8] |= 7;
-
-	tx::reg()->AFR[9 / 8] |= (7 << (4 * 1));
-	tx::reg()->OSPEEDR = 0x4f0000ul;
-	tx::reg()->MODER = 0xa0000;
+	blinker1::setMode(blinker1::Mode::output);
+	blinker2::setMode(blinker2::Mode::output);
+	blinker3::setMode(blinker3::Mode::output);
 
 	for (;;)
 	{

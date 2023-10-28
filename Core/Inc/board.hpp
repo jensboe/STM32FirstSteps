@@ -12,9 +12,9 @@ namespace board
     using ld2 = Gpio<controller, peripheral::gpiob, 7>;
     using ld3 = Gpio<controller, peripheral::gpiob, 14>;
 
-    using debug = Usart<controller, peripheral::usart3>;
     using stlk_rx = Gpio<controller, peripheral::gpiod, 8>;
     using stlk_tx = Gpio<controller, peripheral::gpiod, 9>;
+    using debug = Usart<controller, peripheral::usart3, 115'200_Bd, stlk_rx, stlk_tx>;
 
     static void init(void)
     {
@@ -23,7 +23,5 @@ namespace board
         ld1::init();
         ld2::init();
         ld3::init();
-        stlk_rx::init();
-        stlk_tx::init();
     }
 }
