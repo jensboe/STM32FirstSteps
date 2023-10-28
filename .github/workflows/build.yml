@@ -13,7 +13,7 @@ jobs:
         - name: Build
           run: |
             cmake -G Ninja -S . -B build --toolchain cmake/gcc-arm-none-eabi.cmake -DCMAKE_BUILD_TYPE=release 
-            cmake --build .
+            cmake --build build
 
 
 
