@@ -4,8 +4,9 @@
 #include "stm32f446xx.h"
 #include <SI/baudrate.h>
 #include "Rcc.hpp"
+#include "Gpio.hpp"
 using namespace SI::literals;
-template <typename controller, controller::peripherals p>
+template <typename controller, controller::peripherals p, SI::baudrate_t<uint32_t> baud, typename rx, typename tx>
 struct Usart
 {
     using peripheral = controller::peripherals;
@@ -58,6 +59,13 @@ struct Usart
         setTransmitterEnable(true);
         setReceiverEnable(true);
         setBaudRate(baud);
+        rx::init();
+        tx::init();
+       	tx::setMode(tx::Mode::alternate_function);
+	    tx::setAlternativeFunction(controller::template getAlternateFunctionNumber<p, tx>());
+    	rx::setMode(rx::Mode::alternate_function);
+        rx::setAlternativeFunction(controller::template getAlternateFunctionNumber<p, rx>());
+
         enable();
     }
 
