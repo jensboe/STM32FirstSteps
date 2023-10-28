@@ -1,6 +1,8 @@
 #pragma once
 #include "generics.hpp"
 #include "Nvic.hpp"
+#include "SI/frequency.h"
+using namespace SI::literals;
 struct stm32 : public generic_controller
 {
     constexpr static auto sysTick_freq = 1_kHz;

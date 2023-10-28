@@ -9,7 +9,7 @@ target_compile_definitions(
 target_compile_options(
     ${TARGET_NAME} PRIVATE
     $<$<CONFIG:Debug>:-g3>
-    $<$<NOT:$<CONFIG:Debug>>:-g0>
+    $<$<NOT:$<CONFIG:Debug>>:-g1>
     $<$<NOT:$<CONFIG:Debug>>:-Os>
     -mcpu=cortex-m4
     -mfpu=fpv4-sp-d16
