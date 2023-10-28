@@ -48,7 +48,6 @@ struct Usart
         WL_8 = 0,
         WL_9 = USART_CR1_M,
     };
-
     constexpr static void init(void)
     {
         Rcc::enable<controller, p>();
@@ -58,7 +57,7 @@ struct Usart
         setWordlength(WORDLENGHT::WL_8);
         setTransmitterEnable(true);
         setReceiverEnable(true);
-        setBaudRate(115'200_Bd);
+        setBaudRate(baud);
         enable();
     }
 
