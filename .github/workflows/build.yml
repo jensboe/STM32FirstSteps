@@ -8,6 +8,8 @@ jobs:
         steps:
         - name: Checkout
           uses: actions/Checkout@v4
+          with:
+            submodules: 'true'
         - name: Build
           run: |
             cmake -G Ninja -S . -B build --toolchain cmake/gcc-arm-none-eabi.cmake -DCMAKE_BUILD_TYPE=release 
