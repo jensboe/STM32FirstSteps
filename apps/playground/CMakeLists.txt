@@ -1,49 +1,49 @@
 cmake_minimum_required(VERSION 3.23)
 project("STM32FirstSteps" C CXX ASM)
 
-add_executable(CORE)
+add_executable(playground)
 
 target_sources(
-    CORE PRIVATE
+    playground PRIVATE
     Src/main.cpp
     Src/stm32f4xx_it.c
     Src/syscalls.c
     Src/sysmem.c
 )
 target_include_directories(
-    CORE PRIVATE
+    playground PRIVATE
     Inc
 )
-target_link_libraries(CORE PUBLIC
+target_link_libraries(playground PUBLIC
     cpphalf4
     SI::SI
 )
-add_common_target_properties(CORE)
+add_common_target_properties(playground)
 
 target_link_options(
-    CORE PRIVATE
+    playground PRIVATE
     -T
     ${CMAKE_SOURCE_DIR}/STM32F446ZETX_FLASH.ld
 )
 
 add_custom_command(
-    TARGET CORE POST_BUILD
-    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:CORE>
+    TARGET playground POST_BUILD
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:playground>
 )
 
 add_custom_command(
-    TARGET CORE POST_BUILD
+    TARGET playground POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O ihex
-    $<TARGET_FILE:CORE> CORE.hex
+    $<TARGET_FILE:playground> playground.hex
 )
 
 add_custom_command(
-    TARGET CORE POST_BUILD
+    TARGET playground POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary
-    $<TARGET_FILE:CORE> CORE.bin
+    $<TARGET_FILE:playground> playground.bin
 )
 # add_custom_command(
-#     TARGET CORE POST_BUILD
+#     TARGET playground POST_BUILD
 #     COMMAND ${CMAKE_NM} --print-size --size-sort -r --radix=d
-#     $<TARGET_FILE:CORE>
+#     $<TARGET_FILE:playground>
 # )
