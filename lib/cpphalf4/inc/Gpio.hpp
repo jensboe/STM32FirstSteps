@@ -38,7 +38,6 @@ struct Gpio
         return p;
     }
 
-
     enum class Mode
     {
         input = 0b00,

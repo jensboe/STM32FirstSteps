@@ -68,7 +68,7 @@ struct stm32f446 : public stm32f4
             return true;
         return false;
     }
-    
+
     template <peripherals p, typename Gpio>
     constexpr static uint32_t getAlternateFunctionNumber(void)
     {

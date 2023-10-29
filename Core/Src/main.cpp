@@ -16,7 +16,6 @@
  */
 #include "main.hpp"
 #include "board.hpp"
-#include "peripherals.hpp"
 
 #include <SI/frequency.h>
 
