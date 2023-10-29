@@ -44,7 +44,12 @@
   ],
   "buildPresets": [
     {
-      "name": "default"
+      "name": "release",
+      "configuration": "release_arm"
+    },
+    {
+      "name": "debug",
+      "configuration": "debug_arm"
     }
   ]
 }
