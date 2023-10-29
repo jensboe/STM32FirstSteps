@@ -61,9 +61,9 @@ struct Usart
         setBaudRate(baud);
         rx::init();
         tx::init();
-       	tx::setMode(tx::Mode::alternate_function);
-	    tx::setAlternativeFunction(controller::template getAlternateFunctionNumber<p, tx>());
-    	rx::setMode(rx::Mode::alternate_function);
+        tx::setMode(tx::Mode::alternate_function);
+        tx::setAlternativeFunction(controller::template getAlternateFunctionNumber<p, tx>());
+        rx::setMode(rx::Mode::alternate_function);
         rx::setAlternativeFunction(controller::template getAlternateFunctionNumber<p, rx>());
 
         enable();

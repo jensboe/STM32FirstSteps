@@ -6,11 +6,11 @@ struct Flash
 {
     static inline void setLatency(const uint32_t value)
     {
-        FLASH->ACR = (FLASH->ACR & ~FLASH_ACR_LATENCY) | ((value &0xF) << FLASH_ACR_LATENCY_Pos);
+        FLASH->ACR = (FLASH->ACR & ~FLASH_ACR_LATENCY) | ((value & 0xF) << FLASH_ACR_LATENCY_Pos);
     }
     static inline void setICEN(const bool value)
     {
-        if(value)
+        if (value)
         {
             FLASH->ACR |= FLASH_ACR_ICEN;
         }
@@ -22,7 +22,7 @@ struct Flash
 
     static inline void setDCEN(const bool value)
     {
-        if(value)
+        if (value)
         {
             FLASH->ACR |= FLASH_ACR_DCEN;
         }
@@ -34,7 +34,7 @@ struct Flash
 
     static inline void setPRFTEN(const bool value)
     {
-        if(value)
+        if (value)
         {
             FLASH->ACR |= FLASH_ACR_PRFTEN;
         }

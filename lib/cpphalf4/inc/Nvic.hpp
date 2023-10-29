@@ -3,7 +3,8 @@
 #include <cstdint>
 
 #include "stm32f446xx.h"
-struct Nvic {
+struct Nvic
+{
     enum class Grouping
     {
         PG0 = 0b111,
@@ -13,8 +14,9 @@ struct Nvic {
         PG4 = 0b011,
 
     };
+
     static inline void setPriorityGrouping(const Grouping grouping)
     {
-    	NVIC_SetPriorityGrouping(uint32_t(grouping));
+        NVIC_SetPriorityGrouping(uint32_t(grouping));
     }
 };
