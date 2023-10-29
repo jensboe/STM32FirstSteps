@@ -43,7 +43,7 @@ target_link_options(
     -fdata-sections
     -ffunction-sections
     -Wl,--gc-sections
-    -Wl,-Map=${TARGET_NAME}.map
+    -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${TARGET_NAME}.map
 )
 
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)

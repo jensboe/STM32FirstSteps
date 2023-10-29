@@ -129,7 +129,6 @@ struct Usart
         {
             write(c);
         }
-        write('\n');
     }
 
     static void write(const char &c)
