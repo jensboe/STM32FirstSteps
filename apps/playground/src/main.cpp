@@ -16,6 +16,7 @@
  */
 #include "main.hpp"
 #include "board.hpp"
+#include "buildinfo.hpp"
 
 #include <SI/frequency.h>
 
@@ -36,10 +37,18 @@ int main(void)
 	blinker1::setMode(blinker1::Mode::output);
 	blinker2::setMode(blinker2::Mode::output);
 	blinker3::setMode(blinker3::Mode::output);
-
+	com::write("\n#######################################\n\n");
+	com::write(buildinfo::projectname);
+	com::write("@v");
+	com::write(buildinfo::version::string);
+	com::write("\ngit-rev: ");
+	com::write(buildinfo::git::rev);
+	com::write("\nBuild-Type: ");
+	com::write(buildinfo::buildtype);
+	com::write("\n");
 	for (;;)
 	{
-		com::write("Hello");
+		com::write("Hello\n");
 		blinker1::write(true);
 		util::delay(250_ms);
 		blinker2::write(true);
