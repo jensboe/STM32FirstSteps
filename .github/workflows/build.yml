@@ -1,29 +1,54 @@
 name: Build
 on: push
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        container: 
-          image: ghcr.io/jensboe/arm-cortex-build:v1.0.1
-        steps:
-        - name: Checkout
-          uses: actions/Checkout@v4
-          with:
-            submodules: 'true'
-        - name: Build
-          run: |
-            cmake -G Ninja -S . -B build --toolchain cmake/gcc-arm-none-eabi.cmake -DCMAKE_BUILD_TYPE=release 
-            cmake --build build
-        - uses: actions/upload-artifact@v3
-          if: 
-          with:
-            name: Binaries
-            path: |
-              build/**/*.bin
-              build/**/*.elf
-              build/**/*.hex
-              build/**/*.a
-              build/**/*.map
-              !build/CMakeFiles
+  build_debug:
+      runs-on: ubuntu-latest
+      container: 
+        image: ghcr.io/jensboe/arm-cortex-build:v1.0.1
+      steps:
+      - name: Checkout
+        uses: actions/Checkout@v4
+        with:
+          submodules: 'true'
+      - name: Build
+        run: |
+          cmake --preset debug_arm  
+          cmake --build --preset debug
+      - uses: actions/upload-artifact@v3
+        if: 
+        with:
+          name: Debug
+          path: |
+            build/**/*.bin
+            build/**/*.elf
+            build/**/*.hex
+            build/**/*.a
+            build/**/*.map
+            !build/CMakeFiles
+  build_release:
+    runs-on: ubuntu-latest
+    container: 
+      image: ghcr.io/jensboe/arm-cortex-build:v1.0.1
+    steps:
+    - name: Checkout
+      uses: actions/Checkout@v4
+      with:
+        submodules: 'true'
+    - name: Build
+      run: |
+        cmake --preset release_arm  
+        cmake --build --preset release
+    - uses: actions/upload-artifact@v3
+      if: 
+      with:
+        name: Release
+        path: |
+          build/**/*.bin
+          build/**/*.elf
+          build/**/*.hex
+          build/**/*.a
+          build/**/*.map
+          !build/CMakeFiles
+      
 
 

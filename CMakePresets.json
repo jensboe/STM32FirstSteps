@@ -1,13 +1,17 @@
 {
-  "version": 2,
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
   "configurePresets": [
     {
-      "name": "default",
+      "name": "gcc-arm",
       "hidden": true,
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/${presetName}/build",
+      "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/${presetName}/install",
         "CMAKE_TOOLCHAIN_FILE": {
           "type": "FILEPATH",
           "value": "${sourceDir}/cmake/gcc-arm-none-eabi.cmake"
@@ -24,15 +28,15 @@
       }
     },
     {
-      "name": "debug",
-      "inherits": "default",
+      "name": "debug_arm",
+      "inherits": "gcc-arm",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
-      "name": "release",
-      "inherits": "default",
+      "name": "release_arm",
+      "inherits": "gcc-arm",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
@@ -41,11 +45,11 @@
   "buildPresets": [
     {
       "name": "debug",
-      "configurePreset": "debug"
+      "configurePreset": "debug_arm"
     },
     {
       "name": "release",
-      "configurePreset": "release"
+      "configurePreset": "release_arm"
     }
   ]
 }
