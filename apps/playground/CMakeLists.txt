@@ -5,16 +5,19 @@ project("playground"
 
 add_executable(${PROJECT_NAME})
 
+configure_file(buildinfo.hpp.in buildinfo.hpp)
+
 target_sources(
     ${PROJECT_NAME} PRIVATE
-    Src/main.cpp
-    Src/stm32f4xx_it.c
-    Src/syscalls.c
-    Src/sysmem.c
+    src/main.cpp
+    src/stm32f4xx_it.c
+    src/syscalls.c
+    src/sysmem.c
 )
 target_include_directories(
     ${PROJECT_NAME} PRIVATE
-    Inc
+    inc
+    "${PROJECT_BINARY_DIR}"
 )
 target_link_libraries(${PROJECT_NAME} PUBLIC
     cpphalf4
