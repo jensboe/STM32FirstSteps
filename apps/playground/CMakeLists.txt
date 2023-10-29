@@ -1,46 +1,48 @@
 cmake_minimum_required(VERSION 3.23)
-project("STM32FirstSteps" C CXX ASM)
+project("playground"
+    VERSION 0.0.1
+)
 
-add_executable(playground)
+add_executable(${PROJECT_NAME})
 
 target_sources(
-    playground PRIVATE
+    ${PROJECT_NAME} PRIVATE
     Src/main.cpp
     Src/stm32f4xx_it.c
     Src/syscalls.c
     Src/sysmem.c
 )
 target_include_directories(
-    playground PRIVATE
+    ${PROJECT_NAME} PRIVATE
     Inc
 )
-target_link_libraries(playground PUBLIC
+target_link_libraries(${PROJECT_NAME} PUBLIC
     cpphalf4
     SI::SI
 )
-add_common_target_properties(playground)
+add_common_target_properties(${PROJECT_NAME})
 
 target_link_options(
-    playground PRIVATE
+    ${PROJECT_NAME} PRIVATE
     -T
     ${CMAKE_SOURCE_DIR}/STM32F446ZETX_FLASH.ld
 )
 
 add_custom_command(
-    TARGET playground POST_BUILD
-    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:playground>
+    TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${PROJECT_NAME}>
 )
 
 add_custom_command(
-    TARGET playground POST_BUILD
+    TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O ihex
-    $<TARGET_FILE:playground> playground.hex
+    $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_NAME}.hex
 )
 
 add_custom_command(
-    TARGET playground POST_BUILD
+    TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary
-    $<TARGET_FILE:playground> playground.bin
+    $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_NAME}.bin
 )
 # add_custom_command(
 #     TARGET playground POST_BUILD
