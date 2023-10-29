@@ -45,11 +45,11 @@
   "buildPresets": [
     {
       "name": "release",
-      "configuration": "release_arm"
+      "configurePreset": "release_arm"
     },
     {
       "name": "debug",
-      "configuration": "debug_arm"
+      "configurePreset": "debug_arm"
     }
   ]
 }
