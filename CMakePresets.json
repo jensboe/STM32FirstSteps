@@ -77,7 +77,7 @@
       ]
     },
     {
-      "name": "win-debug",
+      "name": "win",
       "displayName": "windows",
       "configurePreset": "win",
       "configuration": "Debug",
@@ -86,7 +86,7 @@
       ]
     },
     {
-      "name": "unix-debug",
+      "name": "unix",
       "configurePreset": "unix",
       "targets": [
         "test_playground"
