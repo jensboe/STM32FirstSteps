@@ -1,7 +1,9 @@
-add_library(stm32f4xx_hal_driver STATIC)
+project("stm32f4xx_hal_driver" C)
+
+add_library(${PROJECT_NAME} STATIC)
 
 target_include_directories(
-    stm32f4xx_hal_driver PUBLIC
+    ${PROJECT_NAME} PUBLIC
     ../Core/Inc
     stm32f4xx_hal_driver/Inc
     stm32f4xx_hal_driver/Inc/Legacy
@@ -27,8 +29,8 @@ target_sources(stm32f4xx_hal_driver PUBLIC
     stm32f4xx_hal_driver/Src/stm32f4xx_hal.c
     stm32f4xx_hal_driver/Src/stm32f4xx_ll_usb.c
 )
-target_link_libraries(stm32f4xx_hal_driver PUBLIC
+target_link_libraries(${PROJECT_NAME} PUBLIC
     cmsis_device_f4
     cmsis_5
 )
-add_common_target_properties(stm32f4xx_hal_driver)
+add_common_target_properties(${PROJECT_NAME})
