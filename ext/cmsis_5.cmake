@@ -1,6 +1,7 @@
-add_library(cmsis_5 INTERFACE)
+project("cmsis_5")
+add_library(${PROJECT_NAME} INTERFACE)
 
 target_include_directories(
-    cmsis_5 INTERFACE
+    ${PROJECT_NAME} INTERFACE
     CMSIS_5/CMSIS/Core/Include
 )

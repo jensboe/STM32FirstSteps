@@ -43,6 +43,9 @@ int main(void)
 	com::write(buildinfo::version::string);
 	com::write("\ngit-rev: ");
 	com::write(buildinfo::git::rev);
+	com::write(buildinfo::git::diff);
+	com::write("\ngit-branch: ");
+	com::write(buildinfo::git::branch);
 	com::write("\nBuild-Type: ");
 	com::write(buildinfo::buildtype);
 	com::write("\n");

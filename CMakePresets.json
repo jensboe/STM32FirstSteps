@@ -40,16 +40,44 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
+    },
+    {
+      "name": "win",
+      "displayName": "win",
+      "description": "Using compilers for Visual Studio 15 2017 (x64_x86 architecture)",
+      "generator": "Visual Studio 15 2017",
+      "toolset": "host=x64",
+      "architecture": "win32",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe"
+      }
     }
   ],
   "buildPresets": [
     {
       "name": "release",
-      "configurePreset": "release_arm"
+      "configurePreset": "release_arm",
+      "targets": [
+        "playground"
+      ]
     },
     {
       "name": "debug",
-      "configurePreset": "debug_arm"
+      "configurePreset": "debug_arm",
+      "targets": [
+        "playground"
+      ]
+    },
+    {
+      "name": "win-debug",
+      "displayName": "windows",
+      "configurePreset": "win",
+      "configuration": "Debug",
+      "targets": [
+        "test_playground"
+      ]
     }
   ]
 }
