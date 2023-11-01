@@ -53,6 +53,12 @@
         "CMAKE_C_COMPILER": "cl.exe",
         "CMAKE_CXX_COMPILER": "cl.exe"
       }
+    },
+    {
+      "name": "unix",
+      "displayName": "unix",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}"
     }
   ],
   "buildPresets": [
@@ -71,10 +77,17 @@
       ]
     },
     {
-      "name": "win-debug",
+      "name": "win",
       "displayName": "windows",
       "configurePreset": "win",
       "configuration": "Debug",
+      "targets": [
+        "test_playground"
+      ]
+    },
+    {
+      "name": "unix",
+      "configurePreset": "unix",
       "targets": [
         "test_playground"
       ]
