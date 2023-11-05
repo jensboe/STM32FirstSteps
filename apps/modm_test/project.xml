@@ -1,0 +1,13 @@
+<library>
+  <repositories>
+    <repository><path>../../ext/modm/repo.lb</path></repository>
+  </repositories>
+  <extends>modm:nucleo-f446ze</extends>
+  <options>
+    <option name="modm:build:project.name">modm_test</option>
+  </options>
+  <modules>
+    <module>modm:build:cmake</module>
+    <module>modm:docs</module>
+  </modules>
+</library>
