@@ -191,14 +191,14 @@ function(modm_target_config_create target target_arch target_options target_warn
     --specs=nosys.specs
     -L${CMAKE_SOURCE_DIR}
     -nostartfiles
-    -Tmodm/link/linkerscript.ld
+    -Tapps/modm_test/modm/link/linkerscript.ld
     -Wl,--build-id=sha1
     -Wl,--fatal-warnings
     -Wl,--gc-sections
     -Wl,--no-warn-rwx-segment
     -Wl,--no-wchar-size-warning
     -Wl,--relax
-    -Wl,-Map,${CMAKE_PROJECT_NAME}.map,--cref
+    -Wl,-Map,${PROJECT_NAME}.map,--cref
   )
 
   set(LINKFLAGS_RELEASE
