@@ -2,7 +2,6 @@ function(add_common_target_properties TARGET_NAME)
 
 target_compile_definitions(
     ${TARGET_NAME} PRIVATE
-    $<$<CONFIG:Debug>:DEBUG>
     STM32F446xx
 )
 
