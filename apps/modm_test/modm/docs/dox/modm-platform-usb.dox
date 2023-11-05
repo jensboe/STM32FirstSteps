@@ -1,0 +1,10 @@
+/**
+
+@ingroup modm_platform
+@defgroup modm_platform_usb Universal Serial Bus (USB)
+
+lbuild module: `modm:platform:usb`
+
+
+
+ */

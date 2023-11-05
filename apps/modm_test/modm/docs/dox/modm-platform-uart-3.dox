@@ -1,0 +1,22 @@
+/**
+
+@ingroup modm_platform_uart
+@defgroup modm_platform_uart_3 Instance 3
+
+lbuild module: `modm:platform:uart:3`
+
+
+
+## Module Options
+
+### modm:platform:uart:3:buffer.tx: 
+
+
+
+Generated with: `2Ki (2048) in [0 ... 64Ki-2]`
+### modm:platform:uart:3:buffer.rx: 
+
+
+
+Generated with: `0 in [0 ... 64Ki-2]`
+ */

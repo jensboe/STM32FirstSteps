@@ -1,0 +1,10 @@
+/**
+
+@ingroup modm_platform_usb
+@defgroup modm_platform_usb_fs Full Speed
+
+lbuild module: `modm:platform:usb:fs`
+
+
+
+ */
