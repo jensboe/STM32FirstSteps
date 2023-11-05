@@ -10,3 +10,6 @@
 [submodule "ext/SI"]
 	path = ext/SI
 	url = https://github.com/jensboe/SI
+[submodule "ext/modm"]
+	path = ext/modm
+	url = https://github.com/jensboe/modm
