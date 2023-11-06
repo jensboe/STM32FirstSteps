@@ -146,7 +146,7 @@ Configures OpenOCD in tracing mode to output ITM channel 0 on SWO pin and
 displays the serial output stream.
 (\* *only ARM Cortex-M targets*)
 
-See the `modm:platform:itm` module for details how to use the ITM as a logging
+See the <a href="group__modm__platform__itm.html"><code>modm:platform:itm</code></a> module for details how to use the ITM as a logging
 output.
 
 

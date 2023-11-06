@@ -11,7 +11,6 @@
             "servertype": "openocd",
             "searchDir": [],
             "runToEntryPoint": "main",
-            "showDevDebugOutput": "none",
             "device": "STM32F446ZE",
             "configFiles": [
                 "apps/modm_test/modm/openocd.cfg"
@@ -20,7 +19,7 @@
             "svdFile": "${command:vscode-embedded.st.svd}/STM32F446.svd",
             "swoConfig": {
                 "enabled": true,
-                "cpuFrequency": 8000000,
+                "cpuFrequency": 180000000,
                 "swoFrequency": 2000000,
                 "source": "probe",
                 "decoders": [
@@ -69,11 +68,9 @@
             "name": "Launch (unix)",
             "request": "launch",
             "type": "cppdbg",
-            "type": "cppvsdbg",
             "preLaunchTask": "Build",
             "cwd": "${workspaceRoot}",
             "program": "${command:cmake.launchTargetPath}",
-            "console": "integratedTerminal",
         }
     ]
 }

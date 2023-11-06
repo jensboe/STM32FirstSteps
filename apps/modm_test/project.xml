@@ -1,11 +1,15 @@
 <library>
   <repositories>
-    <repository><path>../../ext/modm/repo.lb</path></repository>
+    <repository>
+      <path>../../ext/modm/repo.lb</path>
+    </repository>
   </repositories>
   <extends>modm:nucleo-f446ze</extends>
   <options>
     <option name="modm:build:project.name">modm_test</option>
-    <option name="modm:platform:cortex-m:linkerscript.override">apps/modm_test/modm/link/linkerscript.ld</option>
+    <option name="modm:platform:cortex-m:linkerscript.override">
+      apps/modm_test/modm/link/linkerscript.ld</option>
+    <option name="modm:platform:itm:buffer.tx">250</option>
   </options>
   <modules>
     <module>modm:build:cmake</module>
@@ -13,5 +17,6 @@
     <module>modm:freertos</module>
     <module>modm:processing:rtos</module>
     <module>modm:processing:timer</module>
+    <module>modm:platform:itm</module>
   </modules>
 </library>

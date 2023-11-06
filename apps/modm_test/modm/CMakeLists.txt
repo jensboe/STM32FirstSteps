@@ -48,6 +48,7 @@ add_library(modm OBJECT
   src/modm/platform/core/vectors.c
   src/modm/platform/gpio/enable.cpp
   src/modm/platform/heap/heap_newlib.cpp
+  src/modm/platform/itm/itm.cpp
   src/modm/platform/uart/uart_3.cpp
   src/modm/processing/rtos/mutex.cpp
   src/modm/processing/rtos/queue.cpp
