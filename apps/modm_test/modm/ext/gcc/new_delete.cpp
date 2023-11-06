@@ -15,16 +15,24 @@
 
 #include <new>
 #include <stdlib.h> // for prototypes of malloc() and free()
+#include <modm/architecture/interface/memory.hpp>
 #include <modm/architecture/interface/assert.hpp>
 
+extern "C" modm_weak
+void* malloc_traits(std::size_t size, uint32_t)
+{ return malloc(size); }
 template<bool with_traits>
 static inline void*
-new_assert(size_t size)
+new_assert(size_t size, [[maybe_unused]] modm::MemoryTraits traits = modm::MemoryDefault)
 {
 	void *ptr;
 	while(1)
 	{
-		ptr = malloc(size);
+		if constexpr (with_traits) {
+			ptr = malloc_traits(size, traits.value);
+		} else {
+			ptr = malloc(size);
+		}
 		if (ptr) break;
 		/* See footnote 1) in https://en.cppreference.com/w/cpp/memory/new/operator_new
 		 *
@@ -54,12 +62,20 @@ void* operator new  (std::size_t size, const std::nothrow_t&) noexcept { return 
 modm_weak
 void* operator new[](std::size_t size, const std::nothrow_t&) noexcept { return malloc(size); }
 
+modm_weak
+void* operator new  (std::size_t size, modm::MemoryTraits traits) { return new_assert<true>(size, traits); }
+modm_weak
+void* operator new[](std::size_t size, modm::MemoryTraits traits) { return new_assert<true>(size, traits); }
+
+modm_weak
+void* operator new  (std::size_t size, modm::MemoryTraits traits, const std::nothrow_t&) noexcept { return malloc_traits(size, traits.value); }
+modm_weak
+void* operator new[](std::size_t size, modm::MemoryTraits traits, const std::nothrow_t&) noexcept { return malloc_traits(size, traits.value); }
 // ----------------------------------------------------------------------------
 extern "C" modm_weak
 void operator_delete([[maybe_unused]] void* ptr)
 {
-	modm_assert_continue_fail_debug(0, "delete",
-		"operator delete was called without heap implementation!", ptr);
+	free(ptr);
 }
 
 modm_weak

@@ -29,7 +29,7 @@ implemented as follows:
 8. Copy data to *external* RAM.
 9. Zero sections in *external* RAM.
 10. Initialize heap via `__modm_initialize_memory()` (implemented by the
-    `modm:platform:heap` module).
+    <a href="group__modm__platform__heap.html"><code>modm:platform:heap</code></a> module).
 11. Call static constructors.
 12. Call `main()` application entry point.
 13. If `main()` returns, assert on `main.exit` (only in debug profile).
@@ -294,7 +294,7 @@ env.collect(":platform:cortex-m:linkerscript.table_extern.copy", linkerscript_co
 
 And finally, to register the remaining memory in SDRAM with the allocator, add
 the memory range to the heap table. Remember to use the correct memory traits
-for this memory, see `modm:architecture:memory` for the trait definitions:
+for this memory, see <a href="group__modm__architecture__memory.html"><code>modm:architecture:memory</code></a> for the trait definitions:
 
 ~~~{.python}
 linkerscript_heap = """

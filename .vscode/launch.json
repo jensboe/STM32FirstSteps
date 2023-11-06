@@ -17,6 +17,7 @@
                 "interface/stlink-v2-1.cfg",
                 "target/stm32f4x.cfg"
             ],
+            "rtos": "FreeRTOS",
             "svdFile": "${command:vscode-embedded.st.svd}/STM32F446.svd",
             "swoConfig": {
                 "enabled": true,

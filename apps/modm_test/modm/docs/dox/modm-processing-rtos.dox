@@ -1,0 +1,11 @@
+/**
+
+@ingroup modm_processing
+@defgroup modm_processing_rtos RTOS Abstractions
+
+lbuild module: `modm:processing:rtos`
+
+Basic building blocks of an RTOS abstracted as C++ classes and implemented
+either with FreeRTOS or stdlibc++.
+
+ */

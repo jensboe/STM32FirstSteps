@@ -49,7 +49,7 @@ your application. */
 #define configTICK_RATE_HZ                      ( 1000 )
 /* Memory allocation related definitions. */
 #define configSUPPORT_STATIC_ALLOCATION         1
-#define configSUPPORT_DYNAMIC_ALLOCATION        0
+#define configSUPPORT_DYNAMIC_ALLOCATION        1
 // used by modm:platform:clock for modm::Clock::increment(): vApplicationTickHook()
 #define configUSE_TICK_HOOK                     1
 

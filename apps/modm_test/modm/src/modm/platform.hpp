@@ -16,6 +16,7 @@
 #include "platform/clock/systick_timer.hpp"
 #include "platform/core/delay_ns.hpp"
 #include "platform/core/hardware_init.hpp"
+#include "platform/core/heap_table.hpp"
 #include "platform/core/peripherals.hpp"
 #include "platform/core/vectors.hpp"
 #include "platform/gpio/base.hpp"

@@ -69,7 +69,7 @@ do // GpioA4 toggling takes longer than 500ns because:
 } while(1);              // jump back to loop also takes a few cycles
 ~~~
 
-You should always prefer Software Timers (see `modm:processing:timer`) over
+You should always prefer Software Timers (see <a href="group__modm__processing__timer.html"><code>modm:processing:timer</code></a>) over
 these *blocking* delay functions. However, when `modm::Clock` is not set up yet,
 or when you need very small delays (for example to bit-bang a protocol), you
 need to use these delay functions.

@@ -23,6 +23,7 @@
 #include "interface/delay.hpp"
 #include "interface/gpio.hpp"
 #include "interface/interrupt.hpp"
+#include "interface/memory.hpp"
 #include "interface/register.hpp"
 #include "interface/uart.hpp"
 #include "interface/peripheral.hpp"

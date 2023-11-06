@@ -23,7 +23,7 @@ MODM_LOG_DEBUG << "Function took " << duration << modm::endl;
 ~~~
 
 For additional common timeout and periodic timer use-cases also check out the
-`modm:processing:timer` module which uses these clocks.
+<a href="group__modm__processing__timer.html"><code>modm:processing:timer</code></a> module which uses these clocks.
 
 
 ## Limitations

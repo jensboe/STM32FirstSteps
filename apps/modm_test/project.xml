@@ -11,5 +11,7 @@
     <module>modm:build:cmake</module>
     <module>modm:docs</module>
     <module>modm:freertos</module>
+    <module>modm:processing:rtos</module>
+    <module>modm:processing:timer</module>
   </modules>
 </library>

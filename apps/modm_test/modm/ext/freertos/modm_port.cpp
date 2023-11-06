@@ -21,6 +21,52 @@ void vApplicationStackOverflowHook(TaskHandle_t /*pxTask*/, char *pcTaskName)
 	modm_assert(false, "freertos.stack", "FreeRTOS detected a stack overflow!", pcTaskName);
 }
 
+// ----------------------------------------------------------------------------
+// Make the Newlib heap thread-safe with FreeRTOS
+
+extern "C" void __malloc_lock(struct _reent *);
+void __malloc_lock(struct _reent *)
+{
+	vTaskSuspendAll();
+}
+
+extern "C" void __malloc_unlock(struct _reent *);
+void __malloc_unlock(struct _reent *)
+{
+	xTaskResumeAll();
+}
+
+// ----------------------------------------------------------------------------
+// Make the FreeRTOS heap use Newlib heap
+
+#if configUSE_MALLOC_FAILED_HOOK == 1
+extern "C" void vApplicationMallocFailedHook(void);
+#endif
+extern "C" void *pvPortMalloc(size_t xWantedSize);
+void *pvPortMalloc(size_t xWantedSize)
+{
+	void *pvReturn = malloc(xWantedSize);
+	traceMALLOC(pvReturn, xWantedSize);
+
+#if configUSE_MALLOC_FAILED_HOOK == 1
+	if(pvReturn == nullptr)
+	{
+		vApplicationMallocFailedHook();
+	}
+#endif
+
+	return pvReturn;
+}
+
+extern "C" void vPortFree(void *pv);
+void vPortFree(void *pv)
+{
+	if(pv)
+	{
+		free(pv);
+		traceFREE(pv, 0);
+	}
+}
 #if configUSE_TIMERS == 1
 static StaticTask_t timers_task_storage;
 static StackType_t timers_task_stack_storage[configTIMER_TASK_STACK_DEPTH];
