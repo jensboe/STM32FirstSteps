@@ -15,13 +15,13 @@
 #include <modm/platform/device.hpp>
 #include "systick_timer.hpp"
 
-static constexpr auto systick_step(250);
+static constexpr auto systick_step(1);
 static volatile uint32_t milli_time{};
 static volatile uint32_t micro_time{};
 static volatile bool interrupt{};
 
 extern "C" void
-SysTick_Handler(void)
+vApplicationTickHook()
 {
 	milli_time += systick_step;
 	micro_time += systick_step * 1'000ul;
@@ -36,45 +36,18 @@ void
 modm::platform::SysTickTimer::enable([[maybe_unused]] uint32_t reload,
 									 [[maybe_unused]] bool use_processor_clock)
 {
-	SysTick->CTRL = 0;
-
-	// Lower systick interrupt priority to lowest level
-	NVIC_SetPriority(SysTick_IRQn, systick_priority);
-
-	SysTick->LOAD = reload;
-	SysTick->VAL  = reload;
-	if (use_processor_clock) {
-		SysTick->CTRL = SysTick_CTRL_ENABLE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_CLKSOURCE_Msk;
-	} else {
-		SysTick->CTRL = SysTick_CTRL_ENABLE_Msk | SysTick_CTRL_TICKINT_Msk;
-	}
 }
 
 void
 modm::platform::SysTickTimer::disable()
 {
-	SysTick->CTRL = 0;
 }
 
 // ----------------------------------------------------------------------------
 modm::chrono::milli_clock::time_point modm_weak
 modm::chrono::milli_clock::now() noexcept
 {
-	uint32_t val, ms;
-
-	do	// We cannot use an atomic lock here, the counter still overflows even
-	{	// if the interrupt hasn't happened yet.
-		interrupt = false;
-		val = SysTick->VAL;
-		ms = milli_time;
-	}
-	while(interrupt);
-	const auto diff = SysTick->LOAD - val;
-	const auto ms_per_Ncycles = platform::SysTickTimer::ms_per_Ncycles;
-	constexpr auto Ncycles = platform::SysTickTimer::Ncycles;
-
-	ms += (uint64_t(diff) * uint64_t(ms_per_Ncycles)) >> Ncycles;
-	return time_point{duration{ms}};
+	return time_point{duration{milli_time}};
 }
 
 modm::chrono::micro_clock::time_point modm_weak
@@ -93,7 +66,7 @@ modm::chrono::micro_clock::now() noexcept
 	const auto us_per_Ncycles = platform::SysTickTimer::us_per_Ncycles;
 	constexpr auto Ncycles = platform::SysTickTimer::Ncycles;
 
-	// use a 32x32=64bit multiplication
-	us += (uint64_t(diff) * uint64_t(us_per_Ncycles)) >> Ncycles;
+	// use a 32x32=32bit multiplication
+	us += uint32_t(diff * us_per_Ncycles) >> Ncycles;
 	return time_point{duration{us}};
 }

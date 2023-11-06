@@ -17,6 +17,15 @@ set_source_files_properties(
 )
 
 add_library(modm OBJECT
+  ext/freertos/croutine.c
+  ext/freertos/event_groups.c
+  ext/freertos/list.c
+  ext/freertos/modm_port.cpp
+  ext/freertos/port.c
+  ext/freertos/queue.c
+  ext/freertos/stream_buffer.c
+  ext/freertos/tasks.c
+  ext/freertos/timers.c
   ext/gcc/cabi.c
   ext/gcc/cxxabi.cpp
   ext/gcc/new_delete.cpp
@@ -59,6 +68,8 @@ target_include_directories(modm SYSTEM PUBLIC
   ext
   ext/cmsis/core
   ext/cmsis/device
+  ext/freertos/inc
+  ext/freertos/inc/freertos
   src
 )
 

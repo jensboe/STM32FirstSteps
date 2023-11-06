@@ -1,0 +1,67 @@
+/*
+ * Copyright (c) 2019-2020 Niklas Hauser
+ *
+ * This file is part of the modm project.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+// ----------------------------------------------------------------------------
+
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+#include <modm/architecture/interface/assert.hpp>
+#include <modm/architecture/interface/clock.hpp>
+#include <cstdlib>
+
+extern "C" void vApplicationStackOverflowHook(TaskHandle_t, char *);
+void vApplicationStackOverflowHook(TaskHandle_t /*pxTask*/, char *pcTaskName)
+{
+	modm_assert(false, "freertos.stack", "FreeRTOS detected a stack overflow!", pcTaskName);
+}
+
+#if configUSE_TIMERS == 1
+static StaticTask_t timers_task_storage;
+static StackType_t timers_task_stack_storage[configTIMER_TASK_STACK_DEPTH];
+extern "C"
+void vApplicationGetTimerTaskMemory(StaticTask_t** ppxTimerTaskTCBBuffer,
+									StackType_t** ppxTimerTaskStackBuffer,
+									uint32_t* pulTimerTaskStackSize)
+{
+	*ppxTimerTaskTCBBuffer = &timers_task_storage;
+	*ppxTimerTaskStackBuffer = timers_task_stack_storage;
+	*pulTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
+}
+#endif
+
+static StaticTask_t idle_task_storage;
+static StackType_t idle_task_stack_storage[configMINIMAL_STACK_SIZE];
+extern "C"
+void vApplicationGetIdleTaskMemory(StaticTask_t** ppxIdleTaskTCBBuffer,
+								   StackType_t** ppxIdleTaskStackBuffer,
+								   uint32_t* pulIdleTaskStackSize)
+{
+	*ppxIdleTaskTCBBuffer = &idle_task_storage;
+	*ppxIdleTaskStackBuffer = idle_task_stack_storage;
+	*pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
+}
+
+#include <modm/debug.hpp>
+
+extern "C" void modm_freertos_printf(char const *fmt, ...);
+void modm_freertos_printf(char const *fmt, ...)
+{
+	va_list va;
+	va_start(va, fmt);
+	MODM_LOG_INFO.vprintf(fmt, va);
+	va_end(va);
+}
+extern "C" void modm_freertos_printf_debug(char const *fmt, ...);
+void modm_freertos_printf_debug(char const *fmt, ...)
+{
+	va_list va;
+	va_start(va, fmt);
+	MODM_LOG_DEBUG.vprintf(fmt, va);
+	va_end(va);
+}

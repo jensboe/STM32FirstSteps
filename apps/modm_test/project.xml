@@ -10,5 +10,6 @@
   <modules>
     <module>modm:build:cmake</module>
     <module>modm:docs</module>
+    <module>modm:freertos</module>
   </modules>
 </library>
