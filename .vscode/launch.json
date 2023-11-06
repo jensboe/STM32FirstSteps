@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug with OpenOCD",
+            "name": "Debug modm_test",
             "type": "cortex-debug",
             "preLaunchTask": "Build",
             "cwd": "${workspaceRoot}",
@@ -14,8 +14,7 @@
             "showDevDebugOutput": "none",
             "device": "STM32F446ZE",
             "configFiles": [
-                "interface/stlink-v2-1.cfg",
-                "target/stm32f4x.cfg"
+                "apps/modm_test/modm/openocd.cfg"
             ],
             "rtos": "FreeRTOS",
             "svdFile": "${command:vscode-embedded.st.svd}/STM32F446.svd",
