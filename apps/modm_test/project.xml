@@ -9,7 +9,6 @@
     <option name="modm:build:project.name">modm_test</option>
     <option name="modm:platform:cortex-m:linkerscript.override">
       apps/modm_test/modm/link/linkerscript.ld</option>
-    <option name="modm:platform:itm:buffer.tx">250</option>
   </options>
   <modules>
     <module>modm:build:cmake</module>

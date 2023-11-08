@@ -25,9 +25,10 @@
                 "decoders": [
                     {
                         "type": "console",
-                        "label": "ITM",
-                        "port": 0
-                    }
+                        "label": "Print",
+                        "port": 0,
+                        "showOnStartup": true
+                    },
                 ]
             }
         },

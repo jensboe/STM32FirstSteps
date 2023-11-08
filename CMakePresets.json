@@ -66,14 +66,14 @@
       "name": "release",
       "configurePreset": "release_arm",
       "targets": [
-        "playground"
+        "modm_test"
       ]
     },
     {
       "name": "debug",
       "configurePreset": "debug_arm",
       "targets": [
-        "playground"
+        "modm_test"
       ]
     },
     {

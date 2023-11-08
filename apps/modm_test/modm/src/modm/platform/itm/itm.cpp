@@ -12,12 +12,6 @@
 #include <modm/platform/device.hpp>
 #include "itm.hpp"
 
-#include <modm/architecture/driver/atomic/queue.hpp>
-
-namespace
-{
-	static modm::atomic::Queue<uint8_t, 250> txBuffer;
-}
 namespace modm::platform
 {
 
@@ -69,15 +63,13 @@ Itm::writeBlocking(uint8_t data)
 void
 Itm::flushWriteBuffer()
 {
-	while(!isWriteFinished()) update();
+	return;
 }
 
 bool
 Itm::write(uint8_t data)
 {
-	if (txBuffer.push(data)) return true;
-	update();
-	return txBuffer.push(data);
+	return write_itm(data << 24);
 }
 
 std::size_t
@@ -93,16 +85,13 @@ Itm::write(const uint8_t *data, std::size_t length)
 bool
 Itm::isWriteFinished()
 {
-	return txBuffer.isEmpty();
+	return true;
 }
 
 std::size_t
 Itm::discardTransmitBuffer()
 {
-	std::size_t count = 0;
-	for(; not txBuffer.isEmpty(); txBuffer.pop())
-		++count;
-	return count;
+	return 0;
 }
 
 bool
@@ -137,28 +126,6 @@ Itm::write_itm(uint32_t data, uint8_t size)
 void
 Itm::update()
 {
-	static uint32_t buffer{0};
-	static uint8_t size{0};
-
-	while (not txBuffer.isEmpty() and size < 4)
-	{
-		const uint8_t data = txBuffer.get();
-		txBuffer.pop();
-
-		buffer >>= 8;
-		buffer |= (data << 24);
-		size++;
-	}
-	if (size == 3) {
-		if (write_itm(buffer << 8, 2)) {
-			size = 1;
-			buffer &= (0xff << 24);
-		}
-	}
-	else if (write_itm(buffer, size)) {
-		size = 0;
-		buffer = 0;
-	}
 }
 
 }	// namespace modm::platform

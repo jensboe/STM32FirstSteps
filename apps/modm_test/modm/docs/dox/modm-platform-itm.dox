@@ -116,5 +116,5 @@ loop 5
 You must call the `update()` function repeatedly when a transmit buffer is
 used, otherwise you have to call `flushWriteBuffer()` to empty the buffer.
 
-Generated with: `250 in [0 ... 64Ki-2]`
+Generated with: `0 in [0 ... 64Ki-2]`
  */
