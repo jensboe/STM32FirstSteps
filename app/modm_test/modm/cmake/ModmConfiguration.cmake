@@ -191,7 +191,7 @@ function(modm_target_config_create target target_arch target_options target_warn
     --specs=nosys.specs
     -L${CMAKE_SOURCE_DIR}
     -nostartfiles
-    -Tapps/modm_test/modm/link/linkerscript.ld
+    -Tmodm/link/linkerscript.ld
     -Wl,--build-id=sha1
     -Wl,--fatal-warnings
     -Wl,--gc-sections

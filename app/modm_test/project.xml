@@ -7,8 +7,6 @@
   <extends>modm:nucleo-f446ze</extends>
   <options>
     <option name="modm:build:project.name">modm_test</option>
-    <option name="modm:platform:cortex-m:linkerscript.override">
-      apps/modm_test/modm/link/linkerscript.ld</option>
   </options>
   <modules>
     <module>modm:build:cmake</module>
