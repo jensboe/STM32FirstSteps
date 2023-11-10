@@ -10,6 +10,7 @@
             "executable": "${command:cmake.launchTargetPath}",
             "servertype": "openocd",
             "searchDir": [],
+            "breakAfterReset": false,
             "runToEntryPoint": "main",
             "device": "STM32F446ZE",
             "configFiles": [
