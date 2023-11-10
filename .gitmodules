@@ -13,3 +13,4 @@
 [submodule "ext/modm"]
 	path = ext/modm
 	url = https://github.com/jensboe/modm
+	branch = fix/modm-cmake-as-part-of-a-multi-application-project

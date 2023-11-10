@@ -111,7 +111,6 @@ function(modm_target_config_create target target_arch target_options target_warn
   set(CCFLAGS
     -fdata-sections
     -ffile-prefix-map=${MODM_GCC_PATH}=.
-    -ffile-prefix-map=${CMAKE_SOURCE_DIR}=.
     -ffunction-sections
     -finline-limit=10000
     -fno-builtin-printf
@@ -189,7 +188,7 @@ function(modm_target_config_create target target_arch target_options target_warn
   set(LINKFLAGS
     --specs=nano.specs
     --specs=nosys.specs
-    -L${CMAKE_SOURCE_DIR}
+    -L${PROJECT_SOURCE_DIR}
     -nostartfiles
     -Tmodm/link/linkerscript.ld
     -Wl,--build-id=sha1
