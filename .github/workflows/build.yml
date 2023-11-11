@@ -12,8 +12,8 @@ jobs:
           submodules: 'true'
       - name: Build
         run: |
-          cmake --preset debug_arm  
-          cmake --build --preset debug
+          cmake --preset gcc-arm 
+          cmake --build build/gcc-arm
       - uses: actions/upload-artifact@v3
         if: 
         with:
@@ -25,30 +25,6 @@ jobs:
             build/**/*.a
             build/**/*.map
             !build/CMakeFiles
-  build_release:
-    runs-on: ubuntu-latest
-    container: 
-      image: ghcr.io/jensboe/arm-cortex-build:v1.3.0
-    steps:
-    - name: Checkout
-      uses: actions/Checkout@v4
-      with:
-        submodules: 'true'
-    - name: Build
-      run: |
-        cmake --preset release_arm  
-        cmake --build --preset release
-    - uses: actions/upload-artifact@v3
-      if: 
-      with:
-        name: Release
-        path: |
-          build/**/*.bin
-          build/**/*.elf
-          build/**/*.hex
-          build/**/*.a
-          build/**/*.map
-          !build/CMakeFiles
       
   build_unix:
     runs-on: ubuntu-latest
@@ -62,7 +38,7 @@ jobs:
     - name: Build
       run: |
         cmake --preset unix  
-        cmake --build --preset unix
+        cmake --build build/unix
     - uses: actions/upload-artifact@v3
       if: 
       with:
