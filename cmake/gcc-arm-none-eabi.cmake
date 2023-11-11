@@ -6,8 +6,6 @@ set(CMAKE_SYSTEM_NAME               Generic)
 set(CMAKE_SYSTEM_PROCESSOR          arm)
 
 set(TOOLCHAIN_PREFIX                "arm-none-eabi-")
-set(FLAGS                           "--specs=nano.specs")
-set(ASM_FLAGS                       "-x assembler-with-cpp")
 
 set(CMAKE_C_COMPILER                ${TOOLCHAIN_PREFIX}gcc${TOOLCHAIN_SUFFIX} ${FLAGS})
 set(CMAKE_LINKER                    ${TOOLCHAIN_PREFIX}gcc${TOOLCHAIN_SUFFIX} ${FLAGS})

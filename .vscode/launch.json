@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug with OpenOCD",
+            "name": "Debug modm_test",
             "type": "cortex-debug",
             "preLaunchTask": "Build",
             "cwd": "${workspaceRoot}",
@@ -10,25 +10,26 @@
             "executable": "${command:cmake.launchTargetPath}",
             "servertype": "openocd",
             "searchDir": [],
+            "breakAfterReset": true,
             "runToEntryPoint": "main",
-            "showDevDebugOutput": "none",
             "device": "STM32F446ZE",
             "configFiles": [
-                "interface/stlink-v2-1.cfg",
-                "target/stm32f4x.cfg"
+                "app/modm_test/modm/openocd.cfg"
             ],
+            "rtos": "FreeRTOS",
             "svdFile": "${command:vscode-embedded.st.svd}/STM32F446.svd",
             "swoConfig": {
                 "enabled": true,
-                "cpuFrequency": 8000000,
+                "cpuFrequency": 180000000,
                 "swoFrequency": 2000000,
                 "source": "probe",
                 "decoders": [
                     {
                         "type": "console",
-                        "label": "ITM",
-                        "port": 0
-                    }
+                        "label": "Print",
+                        "port": 0,
+                        "showOnStartup": true
+                    },
                 ]
             }
         },
@@ -69,11 +70,9 @@
             "name": "Launch (unix)",
             "request": "launch",
             "type": "cppdbg",
-            "type": "cppvsdbg",
             "preLaunchTask": "Build",
             "cwd": "${workspaceRoot}",
             "program": "${command:cmake.launchTargetPath}",
-            "console": "integratedTerminal",
         }
     ]
 }
