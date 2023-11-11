@@ -8,8 +8,8 @@
   "configurePresets": [
     {
       "name": "gcc-arm",
-      "hidden": true,
-      "generator": "Ninja",
+      "description": "Using gcc-arm-none-eabi for creating binaries for ARM processessors",
+      "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": {
@@ -25,20 +25,6 @@
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "intelliSenseMode": "linux-gcc-arm"
         }
-      }
-    },
-    {
-      "name": "debug_arm",
-      "inherits": "gcc-arm",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "release_arm",
-      "inherits": "gcc-arm",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
@@ -59,38 +45,6 @@
       "displayName": "unix",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}"
-    }
-  ],
-  "buildPresets": [
-    {
-      "name": "release",
-      "configurePreset": "release_arm",
-      "targets": [
-        "modm_test"
-      ]
-    },
-    {
-      "name": "debug",
-      "configurePreset": "debug_arm",
-      "targets": [
-        "modm_test"
-      ]
-    },
-    {
-      "name": "win",
-      "displayName": "windows",
-      "configurePreset": "win",
-      "configuration": "Debug",
-      "targets": [
-        "test_playground"
-      ]
-    },
-    {
-      "name": "unix",
-      "configurePreset": "unix",
-      "targets": [
-        "test_playground"
-      ]
     }
   ]
 }

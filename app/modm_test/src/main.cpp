@@ -10,6 +10,7 @@ public:
 
     void run()
     {
+        MODM_LOG_INFO << "Scheduler was called. Start blinking." << modm::endl;
         modm::PeriodicTimer tmr{std::chrono::milliseconds(wait)};
         size_t counter{0};
         Led::setOutput();
@@ -18,7 +19,7 @@ public:
             if (tmr.execute())
             {
                 Led::toggle();
-                MODM_LOG_WARNING << "Led status changed." << counter << modm::endl;
+
                 ++counter;
             }
 
@@ -34,6 +35,7 @@ BlinkerTask<Board::LedGreen, 200> blinker1;
 int main()
 {
     Board::initialize();
+    MODM_LOG_INFO << "Booting..." << modm::endl;
     modm::rtos::Scheduler::schedule();
     return 0;
 }
