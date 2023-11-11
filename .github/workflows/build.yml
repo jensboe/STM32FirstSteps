@@ -25,24 +25,4 @@ jobs:
             build/**/*.a
             build/**/*.map
             !build/CMakeFiles
-      
-  build_unix:
-    runs-on: ubuntu-latest
-    container: 
-      image: ghcr.io/jensboe/arm-cortex-build:v1.3.0
-    steps:
-    - name: Checkout
-      uses: actions/Checkout@v4
-      with:
-        submodules: 'true'
-    - name: Build
-      run: |
-        cmake --preset unix  
-        cmake --build build/unix
-    - uses: actions/upload-artifact@v3
-      if: 
-      with:
-        name: Unix
-        path: |
-          build/unix/tests/test_playground/test_playground
 
