@@ -243,7 +243,7 @@ Add the external SDRAM to the linkerscript's `MEMORY` statements in the
 ~~~
 
 You can also declare this as Python code in a lbuild `module.lb` file (useful
-for board support packages modules, see <a href="group__modm__board.html"><code>modm:board</code></a>):
+for board support packages modules, see `modm:board`):
 
 ~~~{.python}
 env.collect(":platform:cortex-m:linkerscript.memory",

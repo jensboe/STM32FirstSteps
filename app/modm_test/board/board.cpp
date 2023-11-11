@@ -25,32 +25,32 @@ modm::log::Logger modm::log::error(loggerDevice);
 modm_extern_c void
 putchar_(char c)
 {
-	loggerDevice.write(c);
+    loggerDevice.write(c);
 }
 
 modm_extern_c void
 modm_abandon(const modm::AssertionInfo &info)
 {
-	MODM_LOG_ERROR << "Assertion '" << info.name << "'";
-	if (info.context != uintptr_t(-1)) {
-		MODM_LOG_ERROR << " @ " << (void *) info.context <<
-						 " (" << (uint32_t) info.context << ")";
-	}
-	#if MODM_ASSERTION_INFO_HAS_DESCRIPTION
-	MODM_LOG_ERROR << " failed!\n  " << info.description << "\nAbandoning...\n";
-	#else
-	MODM_LOG_ERROR << " failed!\nAbandoning...\n";
-	#endif
-	Board::Leds::setOutput();
-	for(int times=10; times>=0; times--)
-	{
-		Board::Leds::write(1);
-		modm::delay_ms(20);
-		Board::Leds::write(0);
-		modm::delay_ms(180);
-	}
-	// Do not flush here otherwise you may deadlock due to waiting on the UART
-	// interrupt which may never be executed when abandoning in a higher
-	// priority Interrupt!!!
-	// MODM_LOG_ERROR << modm::flush;
+    MODM_LOG_ERROR << "Assertion '" << info.name << "'";
+    if (info.context != uintptr_t(-1))
+    {
+        MODM_LOG_ERROR << " @ " << (void *)info.context << " (" << (uint32_t)info.context << ")";
+    }
+#if MODM_ASSERTION_INFO_HAS_DESCRIPTION
+    MODM_LOG_ERROR << " failed!\n  " << info.description << "\nAbandoning...\n";
+#else
+    MODM_LOG_ERROR << " failed!\nAbandoning...\n";
+#endif
+    Board::Leds::setOutput();
+    for (int times = 10; times >= 0; times--)
+    {
+        Board::Leds::write(1);
+        modm::delay_ms(20);
+        Board::Leds::write(0);
+        modm::delay_ms(180);
+    }
+    // Do not flush here otherwise you may deadlock due to waiting on the UART
+    // interrupt which may never be executed when abandoning in a higher
+    // priority Interrupt!!!
+    // MODM_LOG_ERROR << modm::flush;
 }

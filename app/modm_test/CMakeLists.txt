@@ -9,6 +9,10 @@ add_library(project_options INTERFACE)
 target_sources(
     modm_test PRIVATE
     src/main.cpp
+    board/board.cpp
+)
+target_include_directories(modm_test PRIVATE
+    board
 )
 
 target_link_libraries(modm_test PUBLIC

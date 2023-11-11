@@ -31,7 +31,6 @@ add_library(modm OBJECT
   ext/gcc/new_delete.cpp
   ext/printf/printf.c
   src/modm/architecture/driver/atomic/flag.cpp
-  src/modm/board/board.cpp
   src/modm/io/iostream.cpp
   src/modm/io/iostream_printf.cpp
   src/modm/math/utils/bit_operation.cpp
@@ -49,7 +48,6 @@ add_library(modm OBJECT
   src/modm/platform/gpio/enable.cpp
   src/modm/platform/heap/heap_newlib.cpp
   src/modm/platform/itm/itm.cpp
-  src/modm/platform/uart/uart_3.cpp
   src/modm/processing/rtos/mutex.cpp
   src/modm/processing/rtos/queue.cpp
   src/modm/processing/rtos/semaphore.cpp

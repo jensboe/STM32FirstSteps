@@ -4,13 +4,18 @@
       <path>../../ext/modm/repo.lb</path>
     </repository>
   </repositories>
-  <extends>modm:nucleo-f446ze</extends>
   <options>
     <option name="modm:build:project.name">modm_test</option>
+    <option name="modm:target">stm32f446zet6</option>
   </options>
   <modules>
     <module>modm:build:cmake</module>
     <module>modm:docs</module>
+    <module>modm:debug</module>
+    <module>modm:architecture:clock</module>
+    <module>modm:platform:core</module>
+    <module>modm:platform:gpio</module>
+    <module>modm:platform:clock</module>
     <module>modm:freertos</module>
     <module>modm:processing:rtos</module>
     <module>modm:processing:timer</module>

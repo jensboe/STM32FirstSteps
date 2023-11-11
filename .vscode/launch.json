@@ -10,11 +10,11 @@
             "executable": "${command:cmake.launchTargetPath}",
             "servertype": "openocd",
             "searchDir": [],
-            "breakAfterReset": false,
+            "breakAfterReset": true,
             "runToEntryPoint": "main",
             "device": "STM32F446ZE",
             "configFiles": [
-                "apps/modm_test/modm/openocd.cfg"
+                "app/modm_test/modm/openocd.cfg"
             ],
             "rtos": "FreeRTOS",
             "svdFile": "${command:vscode-embedded.st.svd}/STM32F446.svd",
