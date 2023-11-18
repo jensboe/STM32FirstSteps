@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.23)
-project("testkeks"
+
+project("testing"
 VERSION 0.0.1
 )
-enable_testing()
 
-add_executable(testkeks)
-
+add_executable(testing)
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -15,11 +14,12 @@ FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 
 target_sources(
-    testkeks PRIVATE
+  testing PRIVATE
     src/main.cpp
 )
 
 target_link_libraries(
-    testkeks
+  testing
     GTest::gtest_main
 )
+gtest_discover_tests(testing)
