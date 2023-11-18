@@ -1,2 +1,4 @@
 add_subdirectory(embedded)
-add_subdirectory(tests)
+if(win32)
+    add_subdirectory(tests)
+endif()
