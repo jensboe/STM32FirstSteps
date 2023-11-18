@@ -14,7 +14,7 @@
             "runToEntryPoint": "main",
             "device": "STM32F446ZE",
             "configFiles": [
-                "app/modm_test/modm/openocd.cfg"
+                "app/embedded/modm/openocd.cfg"
             ],
             "rtos": "FreeRTOS",
             "svdFile": "${command:vscode-embedded.st.svd}/STM32F446.svd",
