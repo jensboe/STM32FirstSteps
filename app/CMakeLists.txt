@@ -1,2 +1,2 @@
-add_subdirectory(modm_test)
-add_subdirectory(googletest)
+add_subdirectory(embedded)
+add_subdirectory(tests)
