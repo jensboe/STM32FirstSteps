@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug modm_test",
+            "name": "Launch (enbedded)",
             "type": "cortex-debug",
             "preLaunchTask": "Build",
             "cwd": "${workspaceRoot}",
@@ -34,45 +34,12 @@
             }
         },
         {
-            "name": "Launch",
-            "type": "cppdbg",
-            "preLaunchTask": "Build",
-            "cwd": "${workspaceFolder}",
-            "request": "launch",
-            "program": "${command:cmake.launchTargetPath}",
-            "MIMode": "gdb",
-            "miDebuggerPath": "${command:vscode-embedded.st.gdb}",
-            "miDebuggerServerAddress": "localhost:3333",
-            "debugServerPath": "${command:vscode-embedded.st.gdbserver}",
-            "debugServerArgs": "--stm32cubeprogrammer-path ${command:vscode-embedded.st.cubeprogrammer} --swd --port-number 3333",
-            "serverStarted": "Waiting for connection on port .*\\.\\.\\.",
-            "stopAtConnect": false,
-            "postRemoteConnectCommands": [
-                {
-                    "text": "load ${command:cmake.launchTargetPath}"
-                }
-            ],
-            "logging": {
-                "engineLogging": true
-            },
-            "svdPath": "${command:vscode-embedded.st.svd}/STM32F446.svd"
-        },
-        {
             "name": "Launch (windows)",
             "request": "launch",
             "type": "cppvsdbg",
-            "preLaunchTask": "Build",
             "cwd": "${workspaceRoot}",
             "program": "${command:cmake.launchTargetPath}",
-            "console": "integratedTerminal",
+            "internalConsoleOptions": "openOnSessionStart"
         },
-        {
-            "name": "Launch (unix)",
-            "request": "launch",
-            "type": "cppdbg",
-            "preLaunchTask": "Build",
-            "cwd": "${workspaceRoot}",
-            "program": "${command:cmake.launchTargetPath}",
-        }
     ]
 }
