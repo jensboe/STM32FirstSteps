@@ -15,7 +15,7 @@ include(GoogleTest)
 
 target_sources(
   testing PRIVATE
-    src/main.cpp
+    src/example.cpp
 )
 
 target_link_libraries(

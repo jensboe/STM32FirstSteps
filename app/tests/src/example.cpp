@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-TEST(HelloTest, BasicAssertions)
+TEST(Example, BasicAssertions)
 {
     // Expect two strings not to be equal.
     EXPECT_STRNE("hello", "world");
@@ -7,7 +7,7 @@ TEST(HelloTest, BasicAssertions)
     EXPECT_EQ(7 * 6, 42);
 }
 
-TEST(HelloTest1, Fail)
+TEST(Example, Fail)
 {
     EXPECT_EQ(7 * 6, 43);
 }
