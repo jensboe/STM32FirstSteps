@@ -5,7 +5,7 @@
     </repository>
   </repositories>
   <options>
-    <option name="modm:build:project.name">modm_test</option>
+    <option name="modm:build:project.name">embedded</option>
     <option name="modm:target">stm32f446zet6</option>
   </options>
   <modules>

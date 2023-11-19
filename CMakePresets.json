@@ -28,23 +28,14 @@
       }
     },
     {
-      "name": "win",
-      "displayName": "win",
-      "description": "Using compilers for Visual Studio 15 2017 (x64_x86 architecture)",
-      "generator": "Visual Studio 15 2017",
-      "toolset": "host=x64",
-      "architecture": "win32",
+      "name": "desktop",
+      "displayName": "Build fpr desktop",
+      "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "cl.exe",
-        "CMAKE_CXX_COMPILER": "cl.exe"
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++"
       }
-    },
-    {
-      "name": "unix",
-      "displayName": "unix",
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/${presetName}"
     }
   ]
 }
