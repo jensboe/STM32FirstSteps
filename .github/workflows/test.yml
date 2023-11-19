@@ -12,7 +12,7 @@ jobs:
           submodules: 'true'
       - name: Build
         run: |
-          cmake --preset win
-          cmake --build build/gcc-arm
-          cd build/gcc-arm
+          cmake --preset desktop
+          cmake --build build/desktop
+          cd build/desktop
           ctest

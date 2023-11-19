@@ -28,13 +28,13 @@
       }
     },
     {
-      "name": "win",
-      "displayName": "win",
+      "name": "desktop",
+      "displayName": "Build fpr desktop",
       "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "C:/Program Files/LLVM/bin/clang.exe",
-        "CMAKE_CXX_COMPILER": "C:/Program Files/LLVM/bin/clang++.exe"
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++"
       }
     }
   ]
