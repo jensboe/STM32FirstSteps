@@ -3,7 +3,7 @@
 {
 	"name": "Arm Cortex development with ubuntu",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "ghcr.io/jensboe/arm-cortex-build:v1.1.0",
+	"image": "ghcr.io/jensboe/arm-cortex-build:v1.4.1",
 	"customizations": {
 		"vscode": {
 			"extensions": [
