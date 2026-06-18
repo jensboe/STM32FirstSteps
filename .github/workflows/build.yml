@@ -7,7 +7,7 @@ jobs:
         image: ghcr.io/jensboe/arm-cortex-build:v1.4.1
       steps:
       - name: Checkout
-        uses: actions/Checkout@v4
+        uses: actions/Checkout@v7
         with:
           submodules: 'true'
       - name: Build
